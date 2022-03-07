@@ -13,9 +13,6 @@ def on_cursor_endoverlap(canvas):
 
 # Returns an array containing the dimensions of the scaled image.
 def scale_image_to_container(w_width, w_height, i_width, i_height):
-    # It's slow not because of my code, but because tkinter is trash.
-    # i_width and i_height are for the h and w of the background image supplied.
-    # w_width and w_height are the w and h of the root window.
     w_scale = w_width / i_width
     h_scale = w_height / i_height
 
