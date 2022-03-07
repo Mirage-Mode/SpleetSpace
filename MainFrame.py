@@ -85,9 +85,9 @@ class MainFrame:
         self.black_pixel = tk.PhotoImage(file=resources_path + "blackPixel.png")
         self.check_on_img = tk.PhotoImage(file=resources_path + "checkOn.png")
         self.check_off_img = tk.PhotoImage(file=resources_path + "checkOff.png")
-        self.freq_bg = ImageTk.PhotoImage(Image.open(resources_path + "Vector 7.png"))
+        self.freq_bg = ImageTk.PhotoImage(Image.open(resources_path + "FreqLine.png"))
         self.save_button_img = ImageTk.PhotoImage(Image.open(resources_path + "Button.png"))
-        self.split_button_img = ImageTk.PhotoImage(Image.open(resources_path + "Group 1.png"))
+        self.split_button_img = ImageTk.PhotoImage(Image.open(resources_path + "SplitButton.png"))
         # -------------------------------------------------------------
 
 
@@ -196,6 +196,7 @@ class MainFrame:
         self.two_stem.grid(row=0, column=0, padx=15)
         self.four_stem.grid(row=0, column=2, padx=15)
         self.five_stem.grid(row=0, column=3, padx=15)
+        self.two_stem.select()
         stems_radio_frame.pack()
 
         self.stems_frame_canvas = canvas_element()
@@ -305,7 +306,7 @@ class MainFrame:
 
         #Progress Bar
         #--------------------------------------------------------------------------
-        self.prog_bar_running = True; # Is the prog bar running or not.
+        self.prog_bar_running = False; # Is the prog bar running or not.
         prog_glob_off = 218
 
      
@@ -316,8 +317,9 @@ class MainFrame:
         self.prog_bar = ttk.Progressbar(prog_bar_frame, orient="horizontal", length=400, mode="indeterminate", style="green.Horizontal.TProgressbar")
         # self.prog_bar.start(5)
         prog_bar_frame.pack()
-        self.prog_bar.grid(row=0, column=0)
-        self.run_progbar_anim()
+
+        # self.prog_bar.grid(row=0, column=0) #For testing
+        # self.run_progbar_anim()
 
         self.prog_bar_container = canvas_element()
         self.prog_bar_container.y_offset = 0 + prog_glob_off
@@ -393,7 +395,7 @@ class MainFrame:
             self.run_progbar_anim()
 
             #Create and start the splitting thread. 
-            spleet_thread = threading.Thread(target=self.splitter_thread)
+            spleet_thread = threading.Thread(target= lambda: self.splitter_thread(self.stem_option_selection.get(), self.freq_selection.get()))
             spleet_thread.start()
             self.monitor_splitting_thread(spleet_thread)
         
@@ -404,14 +406,21 @@ class MainFrame:
 
 
     # The thread responsible for splitting the song.
-    def splitter_thread(self):
-        
+    def splitter_thread(self, stems, freq):
+        print(stems)
+        print(freq)
+        freq_option = ""
+        if (freq):
+            freq_option = "-16kHz"
+
         # This gets just the song name without path. 
         song_name = os.path.split(self.file_location)[1]
 
-        command = [".\lib\python.exe", "-W", "ignore", "-m", "spleeter", "separate", "-p", "spleeter:4stems-16kHz", "-o", self.save_location + "/output_" + song_name, self.file_location]
+        command = [".\lib\python.exe", "-W", "ignore", "-m", "spleeter", "separate", "-p", "spleeter:" + str(stems) + "stems" + freq_option, "-o", self.save_location + "/output_" + song_name, self.file_location]
+        print(command)
+        # print (subprocess.check_output(command, creationflags=CREATE_NO_WINDOW, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL))
+        print (subprocess.check_output(command, creationflags=CREATE_NO_WINDOW, stdin=subprocess.DEVNULL))
 
-        subprocess.call(command, creationflags=CREATE_NO_WINDOW, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
         # Monitors the splitting thread to see when it finishes.
