@@ -1,4 +1,5 @@
 import os
+import queue
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
@@ -20,7 +21,7 @@ class MainFrame:
 
         # Make the window respond to windows scaling
         windll.shcore.SetProcessDpiAwareness(1)
-
+        self.que = queue.Queue() #global thread status queue
         self.font_name = "Sansation"
         self.font_weight = "normal"
         gdi32 = ctypes.WinDLL('gdi32')
@@ -217,7 +218,7 @@ class MainFrame:
 
         self.freq_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
 
-        self.frequency_checkbox = tk.Checkbutton(self.freq_frame, variable=self.freq_selection, onvalue=1, offvalue=0, background="#000000", fg="black", bg="black", offrelief="flat", relief="flat", highlightthickness=0, bd=0,
+        self.frequency_checkbox = tk.Checkbutton(self.freq_frame, variable=self.freq_selection, onvalue=1, offvalue=0, background="#000000", fg="black", bg="black", offrelief="flat", relief="flat", highlightthickness=0, bd=0, command=self.freq_checkbox_handler,
                                                 highlightbackground="black", highlightcolor="black", selectimage=self.check_on_img, image=self.check_off_img, selectcolor = "black", activebackground="black", indicatoron=1, anchor=CENTER)
 
         self.frequency_checkbox.pack()
@@ -334,7 +335,7 @@ class MainFrame:
         output_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
         self.output_border = tk.Frame(output_frame, highlightbackground="white", highlightthickness=2, bd=0, background="black")
         self.output_label = Text(self.output_border, bg="black", fg="white", width=42, height=10, font=(self.font_name, 10, self.font_weight), bd=0)
-        self.output_label.insert("end", "Welcome to Spleet Space!\nWaiting for input...\n")
+        self.output_label.insert("end", "Welcome to Spleet Space!\nWaiting for input...")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
         self.output_border.grid(row=0, column=0, padx=5)
 
@@ -370,9 +371,13 @@ class MainFrame:
         #Finall show the window!
         self.root.state("normal")
         self.root.focus_force()
+        # self.root.protocol("WM_DELETE_WINDOW", self.on_exit)
         root.geometry('%dx%d+%d+%d' % (minsizew, minsizeh, window_x_location, window_y_location))
 
-
+    def on_exit(self):
+        if self.spleet_thread:
+            print("Killing thread")
+            self.spleet_thread.terminate()
 
     # Starts the prog bar animation
     def run_progbar_anim(self):
@@ -386,8 +391,8 @@ class MainFrame:
     # A thread is necessary so that the gui doesn't freeze up while the song is being split
     def split_song(self, event):
 
-        if self.save_location != "" or self.file_location != "":
-            self.output_label.insert(END, "\nSplitting Song: " + os.path.split(self.file_location)[1] + "\n")
+        if self.save_location != "" and self.file_location != "":
+            self.output_label.insert(END, "\n\nSplitting Song: " + os.path.split(self.file_location)[1] + "\n")
             self.output_label.see(END)
 
             self.prog_bar.grid(row=0, column=0)
@@ -395,20 +400,20 @@ class MainFrame:
             self.run_progbar_anim()
 
             #Create and start the splitting thread. 
-            spleet_thread = threading.Thread(target= lambda: self.splitter_thread(self.stem_option_selection.get(), self.freq_selection.get()))
-            spleet_thread.start()
-            self.monitor_splitting_thread(spleet_thread)
+            self.spleet_thread = threading.Thread(target= lambda: self.splitter_thread(self.stem_option_selection.get(), self.freq_selection.get(), self.que))
+            self.spleet_thread.daemon = True
+            self.spleet_thread.start()
+            self.monitor_splitting_thread(self.spleet_thread)
         
         else:
-            self.output_label.insert(END, "\nERROR!: You must pick a song and save location" + "\n")
+            self.output_label.insert(END, "\n\nERROR!: You must pick a song and save location")
             self.output_label.see(END)
 
 
 
     # The thread responsible for splitting the song.
-    def splitter_thread(self, stems, freq):
-        print(stems)
-        print(freq)
+    def splitter_thread(self, stems, freq, que):
+
         freq_option = ""
         if (freq):
             freq_option = "-16kHz"
@@ -417,10 +422,10 @@ class MainFrame:
         song_name = os.path.split(self.file_location)[1]
 
         command = [".\lib\python.exe", "-W", "ignore", "-m", "spleeter", "separate", "-p", "spleeter:" + str(stems) + "stems" + freq_option, "-o", self.save_location + "/output_" + song_name, self.file_location]
-        print(command)
-        # print (subprocess.check_output(command, creationflags=CREATE_NO_WINDOW, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL))
-        print (subprocess.check_output(command, creationflags=CREATE_NO_WINDOW, stdin=subprocess.DEVNULL))
-
+     
+        process = subprocess.run(command, creationflags=CREATE_NO_WINDOW, capture_output=True, text=True)
+        que.put(process.stdout)
+        
 
 
         # Monitors the splitting thread to see when it finishes.
@@ -431,21 +436,32 @@ class MainFrame:
             song_name = os.path.split(self.file_location)[1]
             self.prog_bar_running = False
             self.prog_bar.grid_remove()
-            self.output_label.insert(END, "\nSplitting Complete! " + song_name + " has been split and saved at " + self.save_location + "\n")
+            output = self.que.get()
+            if output[0] == 'E':
+                self.output_label.insert(END, "\n\n" + output)
+            else:
+                self.output_label.insert(END, "\nSplitting Complete! " + song_name + " has been split and saved at " + self.save_location + "\n")
             self.output_label.see(END)
+            self.que.queue.clear()
 
 
     # Radio Button Handler
-    def set_stem_option(self):
-
-        if self.stem_option_selection.get() == 2:
-            print("2\n")
-        elif self.stem_option_selection.get() == 4:
-            print("4\n")
-        elif self.stem_option_selection.get() == 5:
-            print("5\n")
+    def freq_checkbox_handler(self):
+        if self.freq_selection.get():
+            self.output_label.insert(END, "\n\nFrequency Range set to: Full frequency (not always recommended)")
         else:
-            print("ERROR!")
+            self.output_label.insert(END, "\n\nFrequency Range set to: Regular")
+        
+        self.output_label.see(END)
+        
+            
+
+    # Radio Button Handler
+    def set_stem_option(self):
+        self.output_label.insert(END, "\n\nStem Option set to: " + str(self.stem_option_selection.get()))
+        self.output_label.see(END)
+
+   #TODO:: MAKE A FUNCTION FOR OUTPUTTING MESSAGES
 
 
 
@@ -454,18 +470,28 @@ class MainFrame:
         
         self.file_location = filedialog.askopenfilename(initialdir = "/",title = "Select a File", filetypes = (("Mp3 Files", "*.mp3"), ("Mp4 Files files","*.mp4"), ("All Files", "*.*")))
       
-        self.chosen_file_label.configure(text=""+ os.path.split(self.file_location)[1])
-        self.chosen_file_label.configure(anchor="center")
-        self.output_label.insert(END, "\nLoaded Song File: " + os.path.split(self.file_location)[1] + "\n")
+        if (self.file_location == ""):
+            self.output_label.insert(END, "\n\nDid not load a file. Please load a file!")
+
+        else:
+            self.chosen_file_label.configure(text=""+ os.path.split(self.file_location)[1])
+            self.chosen_file_label.configure(anchor="center")
+            self.output_label.insert(END, "\n\nLoaded Song File: " + os.path.split(self.file_location)[1])
+        
         self.output_label.see(END)
 
     # Function for opening the file Browser
     def browse_save_location(self, event):
 
         self.save_location = tk.filedialog.askdirectory()
-        self.save_file_label.configure(text=""+ self.save_location)
-        self.save_file_label.configure(anchor="e")
-        self.output_label.insert(END, "\nSave location set to: " + self.save_location + "\n")
+        if (self.file_location == ""):
+            self.output_label.insert(END, "\n\nDid not pick a save location. Please pick a save location!")
+
+        else:
+            self.save_file_label.configure(text=""+ self.save_location)
+            self.save_file_label.configure(anchor="e")
+            self.output_label.insert(END, "\n\nSave location set to: " + self.save_location + "\n")
+        
         self.output_label.see(END)
 
 
