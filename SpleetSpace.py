@@ -48,7 +48,7 @@ def main():
     # ---------------------------------------------------
 
     # Here we call that main_window function after 3.14 seconds have passed.
-    splash_window.after(400, lambda: main_window(splash_window))
+    splash_window.after(800, lambda: main_window(splash_window))
     mainloop()
 
  

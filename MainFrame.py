@@ -41,7 +41,28 @@ class MainFrame:
         self.center_x_loc = (self.window_width/2)
         self.center_y_loc = (self.window_height/2)
 
+
+        # -------------------------------------------------------------
+        # Loading Images/Resources (all loading should be done here in the future) and Colors
+        # -------------------------------------------------------------
+        self.bg_image = Image.open(resources_path + "StarBackground.png")
+        self.browse_button_img = ImageTk.PhotoImage(Image.open(resources_path + "Button.png"))
+        self.stems_bg = ImageTk.PhotoImage(Image.open(resources_path + "StemOptions.png"))
+        self.black_pixel = tk.PhotoImage(file=resources_path + "blackPixel.png")
+        self.check_on_img = tk.PhotoImage(file=resources_path + "checkOn.png")
+        self.check_off_img = tk.PhotoImage(file=resources_path + "checkOff.png")
+        self.freq_bg = ImageTk.PhotoImage(Image.open(resources_path + "FreqLine.png"))
+        self.save_button_img = ImageTk.PhotoImage(Image.open(resources_path + "Button.png"))
+        self.split_button_img = ImageTk.PhotoImage(Image.open(resources_path + "SplitButton.png"))
+
+        #Colors
+        mid_block_color = "#AAFF65"
+        button_color = "#7D50FF"
+        prog_bar_color = "#EABEFF"
+        # -------------------------------------------------------------
         
+
+
         # -------------------------------------------------------------
         # STYLES
         # -------------------------------------------------------------
@@ -49,9 +70,9 @@ class MainFrame:
         # Set settings for the new style.
         self.style.theme_create("tabStyle", parent="classic",
                                 settings={
-                                    "TNotebook.Tab": {"configure": {"background": "#2e2e2e", "foreground": "white", "focuscolor": "#2e2e2e",
-                                                                    "padding": [30, 10], "borderwidth": 0},
-                                                      "map": {"background": [("selected", "#7b45ad")]}},
+                                    "TNotebook.Tab": {"configure": {"background": "#201B21", "foreground": "white", "focuscolor": "#2e2e2e",
+                                                                    "padding": [35, 10], "borderwidth": 0},
+                                                      "map": {"background": [("selected", "#7D50FF")]}},
                                     "TNotebook": {"configure": {"background": "#000000", "borderwidth": 0}}})
 
         self.style.theme_use("tabStyle")  # Use the new style we just made.
@@ -77,19 +98,6 @@ class MainFrame:
         # -------------------------------------------------------------
 
 
-        # -------------------------------------------------------------
-        # Loading Images/Resources (all loading should be done here in the future)
-        # -------------------------------------------------------------
-        self.bg_image = Image.open(resources_path + "StarBGL2.png")
-        self.browse_button_img = ImageTk.PhotoImage(Image.open(resources_path + "Button.png"))
-        self.stems_bg = ImageTk.PhotoImage(Image.open(resources_path + "StemOptions.png"))
-        self.black_pixel = tk.PhotoImage(file=resources_path + "blackPixel.png")
-        self.check_on_img = tk.PhotoImage(file=resources_path + "checkOn.png")
-        self.check_off_img = tk.PhotoImage(file=resources_path + "checkOff.png")
-        self.freq_bg = ImageTk.PhotoImage(Image.open(resources_path + "FreqLine.png"))
-        self.save_button_img = ImageTk.PhotoImage(Image.open(resources_path + "Button.png"))
-        self.split_button_img = ImageTk.PhotoImage(Image.open(resources_path + "SplitButton.png"))
-        # -------------------------------------------------------------
 
 
         # -------------------------------------------------------------
@@ -138,7 +146,7 @@ class MainFrame:
         load_glob_off = 170  #increase to move up
         
         file_browser_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
-        self.file_label_border = tk.Frame(file_browser_frame, highlightbackground="#7D50FF", highlightthickness=2, bd=0, background="black")
+        self.file_label_border = tk.Frame(file_browser_frame, highlightbackground=button_color, highlightthickness=2, bd=0, background="black")
         self.chosen_file_label = Label(self.file_label_border, text="File", bg="black", fg="white", width=26, height=2, font=(self.font_name, 12, self.font_weight), bd=4, anchor='w')
         self.chosen_file_label.grid(row=0, column=0, padx=5)
         self.file_label_border.grid(row=0, column=0)
@@ -188,11 +196,11 @@ class MainFrame:
                                                              text="Number of Stems", fill="white", font=(self.font_name, 14, self.font_weight))
 
         self.two_stem = Radiobutton(stems_radio_frame, text="Two", variable=self.stem_option_selection, value=2, command=self.set_stem_option,
-                                    activebackground="black", activeforeground="#AAFF65", selectcolor="black", bg="black", fg="#AAFF65", font=(self.font_name, 13, self.font_weight))
+                                    activebackground="black", activeforeground=mid_block_color, selectcolor="black", bg="black", fg=mid_block_color, font=(self.font_name, 13, self.font_weight))
         self.four_stem = Radiobutton(stems_radio_frame, text="Four", variable=self.stem_option_selection, value=4, command=self.set_stem_option,
-                                     activebackground="black", activeforeground="#AAFF65", selectcolor="black", bg="black", fg="#AAFF65", font=(self.font_name, 13, self.font_weight))
+                                     activebackground="black", activeforeground=mid_block_color, selectcolor="black", bg="black", fg=mid_block_color, font=(self.font_name, 13, self.font_weight))
         self.five_stem = Radiobutton(stems_radio_frame, text="Five", variable=self.stem_option_selection, value=5, command=self.set_stem_option,
-                                     activebackground="black", activeforeground="#AAFF65", selectcolor="black", bg="black", fg="#AAFF65", font=(self.font_name, 13, self.font_weight))
+                                     activebackground="black", activeforeground=mid_block_color, selectcolor="black", bg="black", fg=mid_block_color, font=(self.font_name, 13, self.font_weight))
 
         self.two_stem.grid(row=0, column=0, padx=15)
         self.four_stem.grid(row=0, column=2, padx=15)
@@ -266,7 +274,7 @@ class MainFrame:
                                                              text="Save Location", fill="white", font=(self.font_name, 14, self.font_weight))
 
         file_save_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
-        self.file_save_border = tk.Frame(file_save_frame, highlightbackground="#7D50FF", highlightthickness=2, bd=0, background="black")
+        self.file_save_border = tk.Frame(file_save_frame, highlightbackground=button_color, highlightthickness=2, bd=0, background="black")
         self.save_file_label = Label(self.file_save_border, text="Save Location", bg="black", fg="white", width=26, height=2, font=(self.font_name, 12, self.font_weight), bd=4, anchor='w')
         self.save_file_label.grid(row=0, column=0, padx=5)
         self.file_save_border.grid(row=0, column=0)
@@ -292,7 +300,7 @@ class MainFrame:
 
         #Split Button
         #--------------------------------------------------------------------------
-        split_glob_off = 145 #increase to move down
+        split_glob_off = 146 #increase to move down
 
         self.split_button = canvas_element()
         self.split_button.x_offset = 0
@@ -312,15 +320,16 @@ class MainFrame:
 
      
         self.style.configure("green.Horizontal.TProgressbar",
-            troughcolor='black', background='#AAFF65', border=0,  borderwidth=0, highlightthickness=0, relief="flat")
+            troughcolor='black', background=prog_bar_color, border=0,  borderwidth=0, highlightthickness=0, relief="flat")
 
         prog_bar_frame = tk.Frame(self.spleet_canvas, background="#000000", borderwidth=0)
         self.prog_bar = ttk.Progressbar(prog_bar_frame, orient="horizontal", length=400, mode="indeterminate", style="green.Horizontal.TProgressbar")
-        # self.prog_bar.start(5)
+
         prog_bar_frame.pack()
 
+        #To test the prog bar, set the prog_bar_running to true and uncomment these lines ->
         # self.prog_bar.grid(row=0, column=0) #For testing
-        # self.run_progbar_anim()
+        # self.run_progbar_anim() #for testing
 
         self.prog_bar_container = canvas_element()
         self.prog_bar_container.y_offset = 0 + prog_glob_off
@@ -333,7 +342,7 @@ class MainFrame:
         #--------------------------------------------------------------------------
         output_glob_off = 190 #increase to move down
         output_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
-        self.output_border = tk.Frame(output_frame, highlightbackground="white", highlightthickness=2, bd=0, background="black")
+        self.output_border = tk.Frame(output_frame, highlightbackground="#b096ff", highlightthickness=2, bd=0, background="black")
         self.output_label = Text(self.output_border, bg="black", fg="white", width=42, height=10, font=(self.font_name, 10, self.font_weight), bd=0)
         self.output_label.insert("end", "Welcome to Spleet Space!\nWaiting for input...")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
