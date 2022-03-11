@@ -1,6 +1,6 @@
 #Utility Functions/Variables
 resources_path = "./resources/" #Global location of resource files
-minsizew = 550
+minsizew = 551
 minsizeh = 900
 
 #Switches the cursor to clickable hand

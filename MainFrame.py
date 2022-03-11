@@ -70,8 +70,8 @@ class MainFrame:
         # Set settings for the new style.
         self.style.theme_create("tabStyle", parent="classic",
                                 settings={
-                                    "TNotebook.Tab": {"configure": {"background": "#201B21", "foreground": "white", "focuscolor": "#2e2e2e",
-                                                                    "padding": [35, 10], "borderwidth": 0},
+                                    "TNotebook.Tab": {"configure": {"background": "#201B21", "foreground": "white", "focuscolor": "#2e2e2e", "font":(self.font_name, 10, self.font_weight),
+                                                                    "padding": [49, 10], "borderwidth": 0},
                                                       "map": {"background": [("selected", "#7D50FF")]}},
                                     "TNotebook": {"configure": {"background": "#000000", "borderwidth": 0}}})
 
@@ -92,7 +92,7 @@ class MainFrame:
         # Adds the above frames onto the tab controller.
         self.tab_controller.add(self.spleet_frame, text="Split Songs")
         self.tab_controller.add(self.youtube_frame, text="Youtube Song Downloader")
-        self.tab_controller.add(self.about_us_frame, text="About Us")
+        # self.tab_controller.add(self.about_us_frame, text="About Us")
         self.tab_controller.add(self.help_frame, text="Help")
         self.tab_controller.pack(fill=BOTH, expand=1)
         # -------------------------------------------------------------
@@ -342,7 +342,7 @@ class MainFrame:
         #--------------------------------------------------------------------------
         output_glob_off = 190 #increase to move down
         output_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
-        self.output_border = tk.Frame(output_frame, highlightbackground="#b096ff", highlightthickness=2, bd=0, background="black")
+        self.output_border = tk.Frame(output_frame, highlightbackground="#b096ff", highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
         self.output_label = Text(self.output_border, bg="black", fg="white", width=42, height=10, font=(self.font_name, 10, self.font_weight), bd=0)
         self.output_label.insert("end", "Welcome to Spleet Space!\nWaiting for input...")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
