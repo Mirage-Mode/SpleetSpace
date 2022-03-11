@@ -81,13 +81,11 @@ class MainFrame:
         # Contains the tabs
         self.spleet_frame = Frame(self.tab_controller, background="#000000", bd=0)
         self.youtube_frame = Frame(self.tab_controller, background="#000000", bd=0)
-        self.about_us_frame = Frame(self.tab_controller, background="#000000", bd=0)
         self.help_frame = Frame(self.tab_controller,background="#000000", bd=0)
 
         # Adds the above frames onto the tab controller.
         self.tab_controller.add(self.spleet_frame, text="Split Songs")
         self.tab_controller.add(self.youtube_frame, text="Youtube Song Downloader")
-        # self.tab_controller.add(self.about_us_frame, text="About Us")
         self.tab_controller.add(self.help_frame, text="Help")
         self.tab_controller.pack(fill=BOTH, expand=1)
         # -------------------------------------------------------------
@@ -106,10 +104,6 @@ class MainFrame:
         self.youtube_canvas = Canvas(self.youtube_frame, width=self.window_width,
                                      height=self.window_height, highlightthickness=0, background="#000000")
         self.youtube_canvas.pack(expand=1, fill=BOTH)
-
-        self.about_canvas = Canvas(self.about_us_frame, width=self.window_width,
-                                   height=self.window_height, highlightthickness=0, background="#000000")
-        self.about_canvas.pack(expand=1, fill=BOTH)
 
         self.help_canvas = Canvas(self.help_frame, width=self.window_width,
                                   height=self.window_height, highlightthickness=0, background="#000000")
@@ -130,7 +124,6 @@ class MainFrame:
         # Create the backgrounds for each canvas.
         self.spleet_bg = self.spleet_canvas.create_image(self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
         self.youtube_bg = self.youtube_canvas.create_image(self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
-        self.aboutus_bg = self.about_canvas.create_image(self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
         self.help_bg = self.help_canvas.create_image(self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
         #--------------------------------------------------------------------------
 
@@ -357,18 +350,29 @@ class MainFrame:
         #--------------------------------------------------------------------------
         # TODO write the Help info.
         self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc/6, 
-                                        anchor=CENTER, text="Help", fill="white", font=(self.font_name, 24, self.font_weight))
+                                        anchor=CENTER, text="Help", fill="white", font=(self.font_name, 20, self.font_weight))
         
         self.help_stems_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc/4, 
-                                        anchor=N, text="Choose the number of stems to separate song into", fill="white", font=(self.font_name, 14, self.font_weight), justify="left")
+                                        anchor=N, text="Stems: Choose the number of stems to separate song into.", fill="white", font=(self.font_name, 14, self.font_weight), justify="left")
         #TODO make a grid system for these texts.
         #--------------------------------------------------------------------------
+
+
+        #--------------------------------------------------------------------------
+        #Youtube Page Code
+        #--------------------------------------------------------------------------
+        # TODO write the Help info.
+        self.youtube_title_label = self.youtube_canvas.create_text(self.center_x_loc, self.center_y_loc/6, 
+                                        anchor=CENTER, text="In Development", fill="white", font=(self.font_name, 20, self.font_weight))
+        #TODO make a grid system for these texts.
+        #--------------------------------------------------------------------------
+
+
 
         # Binding the resizers of each canvas
         #--------------------------------------------------------------------------
         self.spleet_canvas.bind("<Configure>", self.resize_handler)
         self.youtube_canvas.bind("<Configure>", self.resize_handler)
-        self.about_canvas.bind("<Configure>", self.resize_handler)
         self.help_canvas.bind("<Configure>", self.resize_handler)
         #--------------------------------------------------------------------------
 
@@ -378,10 +382,14 @@ class MainFrame:
         # self.root.protocol("WM_DELETE_WINDOW", self.on_exit)
         root.geometry('%dx%d+%d+%d' % (resources.minsizew, resources.minsizeh, window_x_location, window_y_location))
 
+
+
+    #Doesn't get called for now.
     def on_exit(self):
         if self.spleet_thread:
             print("Killing thread")
             self.spleet_thread.terminate()
+
 
     # Starts the prog bar animation
     def run_progbar_anim(self):
@@ -513,7 +521,6 @@ class MainFrame:
         #canvas resize
         self.spleet_canvas.coords(self.spleet_bg, self.center_x_loc, self.center_y_loc)
         self.youtube_canvas.coords(self.youtube_bg, self.center_x_loc, self.center_y_loc)
-        self.about_canvas.coords(self.aboutus_bg, self.center_x_loc, self.center_y_loc)
         self.help_canvas.coords(self.help_bg, self.center_x_loc, self.center_y_loc)
 
 
@@ -546,4 +553,6 @@ class MainFrame:
         # Updating the location of the Help Canvas's texts
         self.help_canvas.coords(self.help_title_label, self.center_x_loc, self.center_y_loc/6)
         self.help_canvas.coords(self.help_stems_title_label, self.center_x_loc, self.center_y_loc/4)
+
+        self.youtube_canvas.coords(self.youtube_title_label, self.center_x_loc, self.center_y_loc/4)
 
