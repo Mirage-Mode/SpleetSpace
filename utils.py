@@ -1,8 +1,3 @@
-#Utility Functions/Variables
-resources_path = "./resources/" #Global location of resource files
-minsizew = 551
-minsizeh = 900
-
 #Switches the cursor to clickable hand
 def on_cursor_overlap(canvas):
     canvas.config(cursor="hand2")
