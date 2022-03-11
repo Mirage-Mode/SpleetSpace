@@ -1,6 +1,5 @@
 import os
 import queue
-import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
@@ -11,7 +10,7 @@ from subprocess import CREATE_NO_WINDOW
 import threading
 from utils import *
 from ctypes import windll
-
+import resources
 
 # Main window containing all gui elements.
 class MainFrame:
@@ -22,15 +21,15 @@ class MainFrame:
         # Make the window respond to windows scaling
         windll.shcore.SetProcessDpiAwareness(1)
         self.que = queue.Queue() #global thread status queue
-        self.font_name = "Sansation"
-        self.font_weight = "normal"
+        self.font_name = resources.font_name
+        self.font_weight = resources.font_weight
         gdi32 = ctypes.WinDLL('gdi32')
-        gdi32.AddFontResourceW(resources_path + "Sansation_Regular.ttf")
+        gdi32.AddFontResourceW(resources.font_path)
         # gdi32.RemoveFontResourceW(resources_path + "Sansation_Regular.ttf")
 
-        root.minsize(minsizew,minsizeh)
-        window_x_location = (root.winfo_screenwidth()/2) - (minsizew/2) 
-        window_y_location = (root.winfo_screenheight()/2) - (minsizeh/2)  
+        root.minsize(resources.minsizew,resources.minsizeh)
+        window_x_location = (root.winfo_screenwidth()/2) - (resources.minsizew/2) 
+        window_y_location = (root.winfo_screenheight()/2) - (resources.minsizeh/2)  
         self.root = root
 
         # Getting the window width and height.
@@ -42,25 +41,21 @@ class MainFrame:
         self.center_y_loc = (self.window_height/2)
 
 
+
         # -------------------------------------------------------------
         # Loading Images/Resources (all loading should be done here in the future) and Colors
         # -------------------------------------------------------------
-        self.bg_image = Image.open(resources_path + "StarBackground.png")
-        self.browse_button_img = ImageTk.PhotoImage(Image.open(resources_path + "Button.png"))
-        self.stems_bg = ImageTk.PhotoImage(Image.open(resources_path + "StemOptions.png"))
-        self.black_pixel = tk.PhotoImage(file=resources_path + "blackPixel.png")
-        self.check_on_img = tk.PhotoImage(file=resources_path + "checkOn.png")
-        self.check_off_img = tk.PhotoImage(file=resources_path + "checkOff.png")
-        self.freq_bg = ImageTk.PhotoImage(Image.open(resources_path + "FreqLine.png"))
-        self.save_button_img = ImageTk.PhotoImage(Image.open(resources_path + "Button.png"))
-        self.split_button_img = ImageTk.PhotoImage(Image.open(resources_path + "SplitButton.png"))
-
-        #Colors
-        mid_block_color = "#AAFF65"
-        button_color = "#7D50FF"
-        prog_bar_color = "#EABEFF"
+        self.bg_image = Image.open(resources.bg_image_path)
+        self.browse_button_img = ImageTk.PhotoImage(Image.open(resources.browse_button_img_path))
+        self.stems_bg = ImageTk.PhotoImage(Image.open(resources.stems_bg_path))
+        self.black_pixel = PhotoImage(file=resources.black_pixel_path)
+        self.check_on_img = PhotoImage(file=resources.check_on_img_path)
+        self.check_off_img = PhotoImage(file=resources.check_off_img_path)
+        self.freq_bg = ImageTk.PhotoImage(Image.open(resources.freq_bg_path))
+        self.save_button_img = ImageTk.PhotoImage(Image.open(resources.save_button_img_path))
+        self.split_button_img = ImageTk.PhotoImage(Image.open(resources.split_button_img_path))
         # -------------------------------------------------------------
-        
+    
 
 
         # -------------------------------------------------------------
@@ -146,7 +141,7 @@ class MainFrame:
         load_glob_off = 170  #increase to move up
         
         file_browser_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
-        self.file_label_border = tk.Frame(file_browser_frame, highlightbackground=button_color, highlightthickness=2, bd=0, background="black")
+        self.file_label_border = Frame(file_browser_frame, highlightbackground=resources.button_color, highlightthickness=2, bd=0, background="black")
         self.chosen_file_label = Label(self.file_label_border, text="File", bg="black", fg="white", width=26, height=2, font=(self.font_name, 12, self.font_weight), bd=4, anchor='w')
         self.chosen_file_label.grid(row=0, column=0, padx=5)
         self.file_label_border.grid(row=0, column=0)
@@ -185,7 +180,7 @@ class MainFrame:
         self.stems_container.y_offset = -55 - stems_glob_off
 
         # This var gets updated with whatever the radio button's value is.
-        self.stem_option_selection = tk.IntVar() 
+        self.stem_option_selection = IntVar() 
 
         stems_radio_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
 
@@ -196,11 +191,11 @@ class MainFrame:
                                                              text="Number of Stems", fill="white", font=(self.font_name, 14, self.font_weight))
 
         self.two_stem = Radiobutton(stems_radio_frame, text="Two", variable=self.stem_option_selection, value=2, command=self.set_stem_option,
-                                    activebackground="black", activeforeground=mid_block_color, selectcolor="black", bg="black", fg=mid_block_color, font=(self.font_name, 13, self.font_weight))
+                                    activebackground="black", activeforeground=resources.mid_block_color, selectcolor="black", bg="black", fg=resources.mid_block_color, font=(self.font_name, 13, self.font_weight))
         self.four_stem = Radiobutton(stems_radio_frame, text="Four", variable=self.stem_option_selection, value=4, command=self.set_stem_option,
-                                     activebackground="black", activeforeground=mid_block_color, selectcolor="black", bg="black", fg=mid_block_color, font=(self.font_name, 13, self.font_weight))
+                                     activebackground="black", activeforeground=resources.mid_block_color, selectcolor="black", bg="black", fg=resources.mid_block_color, font=(self.font_name, 13, self.font_weight))
         self.five_stem = Radiobutton(stems_radio_frame, text="Five", variable=self.stem_option_selection, value=5, command=self.set_stem_option,
-                                     activebackground="black", activeforeground=mid_block_color, selectcolor="black", bg="black", fg=mid_block_color, font=(self.font_name, 13, self.font_weight))
+                                     activebackground="black", activeforeground=resources.mid_block_color, selectcolor="black", bg="black", fg=resources.mid_block_color, font=(self.font_name, 13, self.font_weight))
 
         self.two_stem.grid(row=0, column=0, padx=15)
         self.four_stem.grid(row=0, column=2, padx=15)
@@ -221,12 +216,12 @@ class MainFrame:
         # CheckBox Code
         #--------------------------------------------------------------------------
         check_glob_off = -190 #increase to move up
-        self.freq_selection = tk.IntVar()
+        self.freq_selection = IntVar()
 
 
         self.freq_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
 
-        self.frequency_checkbox = tk.Checkbutton(self.freq_frame, variable=self.freq_selection, onvalue=1, offvalue=0, background="#000000", fg="black", bg="black", offrelief="flat", relief="flat", highlightthickness=0, bd=0, command=self.freq_checkbox_handler,
+        self.frequency_checkbox = Checkbutton(self.freq_frame, variable=self.freq_selection, onvalue=1, offvalue=0, background="#000000", fg="black", bg="black", offrelief="flat", relief="flat", highlightthickness=0, bd=0, command=self.freq_checkbox_handler,
                                                 highlightbackground="black", highlightcolor="black", selectimage=self.check_on_img, image=self.check_off_img, selectcolor = "black", activebackground="black", indicatoron=1, anchor=CENTER)
 
         self.frequency_checkbox.pack()
@@ -274,7 +269,7 @@ class MainFrame:
                                                              text="Save Location", fill="white", font=(self.font_name, 14, self.font_weight))
 
         file_save_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
-        self.file_save_border = tk.Frame(file_save_frame, highlightbackground=button_color, highlightthickness=2, bd=0, background="black")
+        self.file_save_border = Frame(file_save_frame, highlightbackground=resources.button_color, highlightthickness=2, bd=0, background="black")
         self.save_file_label = Label(self.file_save_border, text="Save Location", bg="black", fg="white", width=26, height=2, font=(self.font_name, 12, self.font_weight), bd=4, anchor='w')
         self.save_file_label.grid(row=0, column=0, padx=5)
         self.file_save_border.grid(row=0, column=0)
@@ -289,7 +284,7 @@ class MainFrame:
         self.save_browser_button.x_offset = 150
         self.save_browser_button.y_offset = -270 + save_glob_off
         self.save_browser_button.element = self.spleet_canvas.create_image(self.center_x_loc,
-                                                             self.center_y_loc + self.file_browser_button.y_offset, tags="saveButton", image=self.browse_button_img, anchor="center")
+                                                             self.center_y_loc + self.file_browser_button.y_offset, tags="saveButton", image=self.save_button_img, anchor="center")
         self.spleet_canvas.tag_bind("saveButton", "<Button-1>", self.browse_save_location)
         self.spleet_canvas.tag_bind("saveButton", "<Enter>", lambda event: on_cursor_overlap(self.spleet_canvas))
         self.spleet_canvas.tag_bind("saveButton", "<Leave>", lambda event: on_cursor_endoverlap(self.spleet_canvas))
@@ -320,9 +315,9 @@ class MainFrame:
 
      
         self.style.configure("green.Horizontal.TProgressbar",
-            troughcolor='black', background=prog_bar_color, border=0,  borderwidth=0, highlightthickness=0, relief="flat")
+            troughcolor='black', background=resources.prog_bar_color, border=0,  borderwidth=0, highlightthickness=0, relief="flat")
 
-        prog_bar_frame = tk.Frame(self.spleet_canvas, background="#000000", borderwidth=0)
+        prog_bar_frame = Frame(self.spleet_canvas, background="#000000", borderwidth=0)
         self.prog_bar = ttk.Progressbar(prog_bar_frame, orient="horizontal", length=400, mode="indeterminate", style="green.Horizontal.TProgressbar")
 
         prog_bar_frame.pack()
@@ -342,7 +337,7 @@ class MainFrame:
         #--------------------------------------------------------------------------
         output_glob_off = 190 #increase to move down
         output_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
-        self.output_border = tk.Frame(output_frame, highlightbackground="#b096ff", highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
+        self.output_border = Frame(output_frame, highlightbackground="#b096ff", highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
         self.output_label = Text(self.output_border, bg="black", fg="white", width=42, height=10, font=(self.font_name, 10, self.font_weight), bd=0)
         self.output_label.insert("end", "Welcome to Spleet Space!\nWaiting for input...")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
@@ -381,7 +376,7 @@ class MainFrame:
         self.root.state("normal")
         self.root.focus_force()
         # self.root.protocol("WM_DELETE_WINDOW", self.on_exit)
-        root.geometry('%dx%d+%d+%d' % (minsizew, minsizeh, window_x_location, window_y_location))
+        root.geometry('%dx%d+%d+%d' % (resources.minsizew, resources.minsizeh, window_x_location, window_y_location))
 
     def on_exit(self):
         if self.spleet_thread:
@@ -477,7 +472,7 @@ class MainFrame:
     # Function for opening the file Browser
     def browse_files(self, event):
         
-        self.file_location = filedialog.askopenfilename(initialdir = "/",title = "Select a File", filetypes = (("Mp3 Files", "*.mp3"), ("Mp4 Files files","*.mp4"), ("All Files", "*.*")))
+        self.file_location = filedialog.askopenfilename(initialdir = "/",title = "Select a File", filetypes = [("Audio File", "*.mp3 *.m4a *wav *ogg *wma *flac")])
       
         if (self.file_location == ""):
             self.output_label.insert(END, "\n\nDid not load a file. Please load a file!")
@@ -492,7 +487,7 @@ class MainFrame:
     # Function for opening the file Browser
     def browse_save_location(self, event):
 
-        self.save_location = tk.filedialog.askdirectory()
+        self.save_location = filedialog.askdirectory()
         if (self.file_location == ""):
             self.output_label.insert(END, "\n\nDid not pick a save location. Please pick a save location!")
 

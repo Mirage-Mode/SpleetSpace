@@ -1,6 +1,6 @@
 from tkinter import * 
 from MainFrame import MainFrame
-from utils import resources_path, minsizew, minsizeh
+from resources import resources_path, minsizew, minsizeh
 
 
 
