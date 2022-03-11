@@ -17,9 +17,7 @@ font_path = resources_path + "Sansation_Regular.ttf"
 # -------------------------------------------------------------
 # Loading Images/Resources (all loading should be done here in the future) and Colors
 # -------------------------------------------------------------
-# bg_image_path = resources_path + "StarBackground.png"
-bg_image_path = resources_path + "StarBgl2.png"
-
+bg_image_path = resources_path + "StarBackground.png"
 browse_button_img_path = resources_path + "Button.png"
 stems_bg_path = resources_path + "StemOptions.png"
 black_pixel_path = resources_path + "blackPixel.png"
