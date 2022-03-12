@@ -23,9 +23,9 @@ class MainFrame:
         self.que = queue.Queue() #global thread status queue
         self.font_name = resources.font_name
         self.font_weight = resources.font_weight
+
         gdi32 = ctypes.WinDLL('gdi32')
         gdi32.AddFontResourceW(resources.font_path)
-        # gdi32.RemoveFontResourceW(resources_path + "Sansation_Regular.ttf")
 
         root.minsize(resources.minsizew,resources.minsizeh)
         window_x_location = (root.winfo_screenwidth()/2) - (resources.minsizew/2) 
@@ -379,16 +379,17 @@ class MainFrame:
         #Finall show the window!
         self.root.state("normal")
         self.root.focus_force()
-        # self.root.protocol("WM_DELETE_WINDOW", self.on_exit)
+        self.root.protocol("WM_DELETE_WINDOW", self.on_exit)
         root.geometry('%dx%d+%d+%d' % (resources.minsizew, resources.minsizeh, window_x_location, window_y_location))
 
 
 
-    #Doesn't get called for now.
+    #Gets called on exit. Removes the font resource from windows.
     def on_exit(self):
-        if self.spleet_thread:
-            print("Killing thread")
-            self.spleet_thread.terminate()
+        self.root.destroy()
+        gdi32 = ctypes.WinDLL('gdi32')
+        gdi32.RemoveFontResourceW(resources.font_path)
+        
 
 
     # Starts the prog bar animation
@@ -404,7 +405,7 @@ class MainFrame:
     def split_song(self, event):
 
         if self.save_location != "" and self.file_location != "":
-            self.output_label.insert(END, "\n\nSplitting Song: " + os.path.split(self.file_location)[1] + "\n")
+            self.output_label.insert(END, "\n\nSplitting Song: " + os.path.split(self.file_location)[1])
             self.output_label.see(END)
 
             self.prog_bar.grid(row=0, column=0)
@@ -452,7 +453,7 @@ class MainFrame:
             if output[0] == 'E':
                 self.output_label.insert(END, "\n\n" + output)
             else:
-                self.output_label.insert(END, "\nSplitting Complete! " + song_name + " has been split and saved at " + self.save_location + "\n")
+                self.output_label.insert(END, "\n\nSplitting Complete! " + song_name + " has been split and saved at " + self.save_location)
             self.output_label.see(END)
             self.que.queue.clear()
 
@@ -502,7 +503,7 @@ class MainFrame:
         else:
             self.save_file_label.configure(text=""+ self.save_location)
             self.save_file_label.configure(anchor="e")
-            self.output_label.insert(END, "\n\nSave location set to: " + self.save_location + "\n")
+            self.output_label.insert(END, "\n\nSave location set to: " + self.save_location)
         
         self.output_label.see(END)
 
