@@ -131,7 +131,7 @@ class MainFrame:
         #File Load Browser
         #--------------------------------------------------------------------------
         self.file_location = ""
-        load_glob_off = 170  #increase to move up
+        load_glob_off = 175  #increase to move up
         
         file_browser_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
         self.file_label_border = Frame(file_browser_frame, highlightbackground=resources.button_color, highlightthickness=2, bd=0, background="black")
@@ -165,7 +165,7 @@ class MainFrame:
 
         # Stems Code
         # ----------------------------------------------------------------------------------
-        stems_glob_off = 140 #increase to move up
+        stems_glob_off = 145 #increase to move up
 
         self.stems_container = canvas_element()
         self.stems_container.width = 190
@@ -208,7 +208,7 @@ class MainFrame:
 
         # CheckBox Code
         #--------------------------------------------------------------------------
-        check_glob_off = -190 #increase to move up
+        check_glob_off = -195 #increase to move up
         self.freq_selection = IntVar()
 
 
@@ -254,7 +254,7 @@ class MainFrame:
         #File Save Browser
         #--------------------------------------------------------------------------
         self.save_location = ""
-        save_glob_off = 220 #increase to move up
+        save_glob_off = 225 #increase to move up
         self.file_save_title = canvas_element()
         self.file_save_title.x_offset = 190
         self.file_save_title.y_offset = -220 + save_glob_off
@@ -288,7 +288,7 @@ class MainFrame:
 
         #Split Button
         #--------------------------------------------------------------------------
-        split_glob_off = 146 #increase to move down
+        split_glob_off = 141 #increase to move down
 
         self.split_button = canvas_element()
         self.split_button.x_offset = 0
@@ -328,7 +328,7 @@ class MainFrame:
 
         #Output Box
         #--------------------------------------------------------------------------
-        output_glob_off = 190 #increase to move down
+        output_glob_off = 185 #increase to move down
         output_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
         self.output_border = Frame(output_frame, highlightbackground="#b096ff", highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
         self.output_label = Text(self.output_border, bg="black", fg="white", width=42, height=10, font=(self.font_name, 10, self.font_weight), bd=0)
@@ -350,7 +350,7 @@ class MainFrame:
         #--------------------------------------------------------------------------
         # TODO write the Help info.
         self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc/6, 
-                                        anchor=CENTER, text="Help", fill="white", font=(self.font_name, 20, self.font_weight))
+                                        anchor=CENTER, text="Help", fill="white", font=(self.font_name, 19, self.font_weight))
         
         self.help_stems_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc/4, 
                                         anchor=N, text="Stems: Choose the number of stems to separate song into.", fill="white", font=(self.font_name, 14, self.font_weight), justify="left")
@@ -363,7 +363,7 @@ class MainFrame:
         #--------------------------------------------------------------------------
         # TODO write the Help info.
         self.youtube_title_label = self.youtube_canvas.create_text(self.center_x_loc, self.center_y_loc/6, 
-                                        anchor=CENTER, text="In Development", fill="white", font=(self.font_name, 20, self.font_weight))
+                                        anchor=CENTER, text="\n\nIn Development", fill="white", font=(self.font_name, 19, self.font_weight))
         #TODO make a grid system for these texts.
         #--------------------------------------------------------------------------
 
@@ -455,7 +455,7 @@ class MainFrame:
             else:
                 self.output_label.insert(END, "\n\nSplitting Complete! " + song_name + " has been split and saved at " + self.save_location)
             self.output_label.see(END)
-            self.que.queue.clear()
+            # self.que.queue.clear()
 
 
     # Radio Button Handler
@@ -497,7 +497,7 @@ class MainFrame:
     def browse_save_location(self, event):
 
         self.save_location = filedialog.askdirectory()
-        if (self.file_location == ""):
+        if (self.save_location == ""):
             self.output_label.insert(END, "\n\nDid not pick a save location. Please pick a save location!")
 
         else:
