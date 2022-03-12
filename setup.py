@@ -13,7 +13,7 @@ if sys.platform == "win32":
 setup(
     name = "SpleetSpace",
     version = "0.1",
-    description = "SpleetSpace",
+    description = "Audio Seperation App",
     options = {"build_exe": build_exe_options},
-    executables = [Executable("SpleetSpace.py", base=base)]
+    executables = [Executable("SpleetSpace.py", base=base, icon="./resources/icon.ico")]
 )
