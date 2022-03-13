@@ -4,7 +4,7 @@ Music separation (vocals, drums, instruments) desktop application based on the S
 
 ## Download
 
-[Download Latest Release - v0.1](https://github.com/Mirage-Mode/SpleetSpace/releases/download/v0.1/SpleetSpace.zip) (no additional files/installations required)
+[Download Latest Release - v0.1](https://github.com/Mirage-Mode/SpleetSpace/releases/download/v0.1/SpleetSpace.zip) (not working - fixing)
 
 ## Planned Features
 * Built in Youtube Song Downloader
