@@ -1,6 +1,9 @@
 # SpleetSpace
 Music separation (vocals, drums, instruments) desktop application based on the Spleeter library.
 
+<p float="left">
+<img src="Readme_imgs/spleetspaceimg.jpg" width="350"/>
+</p>
 
 ## Download
 
