@@ -1,13 +1,15 @@
 # SpleetSpace
 Music separation (vocals, drums, instruments) desktop application based on the Spleeter library.
 
-<p float="left">
-<img src="Readme_imgs/spleetspaceimg.jpg" width="350"/>
-</p>
 
 ## Download
 
 [Download Latest Release - v0.1](https://github.com/Mirage-Mode/SpleetSpace/releases/download/v0.1/SpleetSpace.zip) (not working on some devices - fix in progress)
+
+<p float="left">
+<img src="Readme_imgs/spleetspaceimg.jpg" width="420"/>
+</p>
+
 
 ## Planned Features
 * Built in Youtube Song Downloader
