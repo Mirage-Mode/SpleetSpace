@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.exe
+*.dll
 # C extensions
 *.so
 pretrained_models
