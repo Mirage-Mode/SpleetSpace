@@ -222,7 +222,7 @@ class MainFrame:
 
         self.freq_container = canvas_element()
         self.freq_container.y_offset = 110 + check_glob_off
-        self.freq_container.x_offset = -106
+        self.freq_container.x_offset = -140
         self.freq_container.element = self.spleet_canvas.create_window(self.center_x_loc - self.freq_container.x_offset, self.center_y_loc + self.freq_container.y_offset, 
                                                                         anchor=CENTER, window=self.freq_frame)      
 
@@ -233,16 +233,16 @@ class MainFrame:
                                                              self.center_y_loc + self.freq_container.y_offset, image=self.freq_bg, anchor="center")
 
         self.freq_label = canvas_element()
-        self.freq_label.x_offset = 20
+        self.freq_label.x_offset = 27
         self.freq_label.y_offset = self.freq_container.y_offset
         self.freq_label.element = self.spleet_canvas.create_text(self.center_x_loc - self.freq_label.x_offset, self.center_y_loc + self.freq_label.y_offset, anchor=CENTER,
-                                                        text="Full Frequency (16kHZ) ", fill="white", font=(self.font_name, 14, self.font_weight))
+                                                        text="Include High Frequencies (16kHz) ", fill="white", font=(self.font_name, 14, self.font_weight))
 
         self.black_pixel_label = Label(self.spleet_canvas, image=self.black_pixel, bd=0)
         self.black_pixel_label.pack()
 
         self.black_pixel_cv = canvas_element()
-        self.black_pixel_cv.x_offset = -95
+        self.black_pixel_cv.x_offset = -125
         self.black_pixel_cv.y_offset = 110 + check_glob_off
         self.black_pixel_cv.element = self.spleet_canvas.create_window(self.center_x_loc - self.black_pixel_cv.x_offset, self.center_y_loc + self.black_pixel_cv.y_offset, 
                                                                          anchor=CENTER, window=self.black_pixel_label)      
@@ -434,7 +434,7 @@ class MainFrame:
         # This gets just the song name without path. 
         song_name = os.path.split(self.file_location)[1]
 
-        command = [".\lib\python.exe", "-W", "ignore", "-m", "spleeter", "separate", "-p", "spleeter:" + str(stems) + "stems" + freq_option, "-o", self.save_location + "/output_" + song_name, self.file_location]
+        command = [".\lib\python.exe", "-W", "ignore", "-m", "spleeter", "separate", "-p", "spleeter:" + str(stems) + "stems" + freq_option, "-o", self.save_location + "/output_" + song_name + freq_option, self.file_location]
      
         process = subprocess.run(command, creationflags=CREATE_NO_WINDOW, capture_output=True, text=True)
         que.put(process.stdout)
@@ -450,10 +450,10 @@ class MainFrame:
             self.prog_bar_running = False
             self.prog_bar.grid_remove()
             output = self.que.get()
-            # if output[0] == 'E':
-            self.output_label.insert(END, "\n\n" + output)
-            # else:
-                # self.output_label.insert(END, "\n\nSplitting Complete! " + song_name + " has been split and saved at " + self.save_location)
+            if output[0] == 'E':
+                self.output_label.insert(END, "\n\n" + output)
+            else:
+                self.output_label.insert(END, "\n\nSplitting Complete! " + song_name + " has been split and saved at " + self.save_location)
             self.output_label.see(END)
             # self.que.queue.clear()
 
@@ -461,9 +461,9 @@ class MainFrame:
     # Radio Button Handler
     def freq_checkbox_handler(self):
         if self.freq_selection.get():
-            self.output_label.insert(END, "\n\nFrequency Range set to: Full frequency (not always recommended)")
+            self.output_label.insert(END, "\n\nFrequency Range set to: 0-16kHz (not always recommended)")
         else:
-            self.output_label.insert(END, "\n\nFrequency Range set to: Regular")
+            self.output_label.insert(END, "\n\nFrequency Range set to: 0-11kHz")
         
         self.output_label.see(END)
         
@@ -484,6 +484,8 @@ class MainFrame:
         self.file_location = filedialog.askopenfilename(initialdir = "/",title = "Select a File", filetypes = [("Audio File", "*.mp3 *.m4a *wav *ogg *wma *flac")])
       
         if (self.file_location == ""):
+            self.chosen_file_label.configure(text="File Location")
+            self.chosen_file_label.configure(anchor="w")
             self.output_label.insert(END, "\n\nDid not load a file. Please load a file!")
 
         else:
@@ -498,6 +500,8 @@ class MainFrame:
 
         self.save_location = filedialog.askdirectory()
         if (self.save_location == ""):
+            self.save_file_label.configure(text="Save Location")
+            self.save_file_label.configure(anchor="w")
             self.output_label.insert(END, "\n\nDid not pick a save location. Please pick a save location!")
 
         else:
