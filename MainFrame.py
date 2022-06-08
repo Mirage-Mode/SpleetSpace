@@ -151,7 +151,7 @@ class MainFrame:
 
         self.file_title = canvas_element()
         self.file_title.x_offset = 190
-        self.file_title.y_offset = 205 + load_glob_off
+        self.file_title.y_offset = 198 + load_glob_off
         self.file_title.element = self.spleet_canvas.create_text(self.center_x_loc - self.file_title.x_offset, self.center_y_loc - self.file_title.y_offset, anchor=W,
                                                              text="Song", fill="white", font=(self.font_name, 14, self.font_weight))
 
@@ -258,10 +258,10 @@ class MainFrame:
         #File Save Browser
         #--------------------------------------------------------------------------
         self.save_location = ""
-        save_glob_off = 225 #increase to move up
+        save_glob_off = 239 #increase to move up
         self.file_save_title = canvas_element()
         self.file_save_title.x_offset = 190
-        self.file_save_title.y_offset = -220 + save_glob_off
+        self.file_save_title.y_offset = -225 + save_glob_off
         self.file_save_title.element = self.spleet_canvas.create_text(self.center_x_loc - self.file_save_title.x_offset, self.center_y_loc - self.file_save_title.y_offset, anchor=W,
                                                              text="Save Location", fill="white", font=(self.font_name, 14, self.font_weight))
 
@@ -273,13 +273,13 @@ class MainFrame:
         
         self.file_save_container = canvas_element()
         self.file_save_container.x_offset = 60
-        self.file_save_container.y_offset = -270 + save_glob_off
+        self.file_save_container.y_offset = -265 + save_glob_off
         self.file_save_container.element = self.spleet_canvas.create_window(self.center_x_loc, self.center_y_loc + self.file_save_container.y_offset, 
                                                                             anchor=CENTER, window=file_save_frame)
 
         self.save_browser_button = canvas_element()
         self.save_browser_button.x_offset = 150
-        self.save_browser_button.y_offset = -270 + save_glob_off
+        self.save_browser_button.y_offset = -265 + save_glob_off
         self.save_browser_button.element = self.spleet_canvas.create_image(self.center_x_loc,
                                                              self.center_y_loc + self.file_browser_button.y_offset, tags="saveButton", image=self.save_button_img, anchor="center")
         self.spleet_canvas.tag_bind("saveButton", "<Button-1>", self.browse_save_location)
@@ -292,7 +292,7 @@ class MainFrame:
 
         #Split Button
         #--------------------------------------------------------------------------
-        split_glob_off = 141 #increase to move down
+        split_glob_off = 120 #increase to move down
 
         self.split_button = canvas_element()
         self.split_button.x_offset = 0
@@ -332,7 +332,7 @@ class MainFrame:
 
         #Output Box
         #--------------------------------------------------------------------------
-        output_glob_off = 152 #increase to move down
+        output_glob_off = 133 #increase to move down
         output_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
         self.output_border = Frame(output_frame, highlightbackground="#b096ff", highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
         self.output_label = Text(self.output_border, bg="black", fg="white", width=42, height=5, font=(self.font_name, 10, self.font_weight), bd=0)
@@ -537,7 +537,7 @@ class MainFrame:
 
         # Update our window width/height variables since the window size changed.
         self.window_width = event.width
-        self.window_height = event.height + 63
+        self.window_height = event.height + 57
 
         # Update the center location since the window size changed.
         self.center_x_loc = (self.window_width/2)
