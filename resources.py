@@ -10,9 +10,9 @@ resources_path = "./resources/" #Global location of resource files
 # -------------------------------------------------------------
 # Fonts
 # -------------------------------------------------------------
-font_name = "Sansation"
+font_name = "Work Sans Regular"
 font_weight = "normal"
-font_path = resources_path + "Sansation_Regular.ttf"
+font_path = resources_path + "WorkSans-Regular.ttf"
 
 # -------------------------------------------------------------
 # Loading Images/Resources (all loading should be done here in the future) and Colors

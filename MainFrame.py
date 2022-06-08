@@ -10,6 +10,7 @@ from subprocess import CREATE_NO_WINDOW
 import threading
 from utils import *
 from ctypes import windll
+from YoutubePage import youtube_page
 import resources
 
 # Main window containing all gui elements.
@@ -101,8 +102,11 @@ class MainFrame:
         # It's apparently okay to pack the canvas before drawing things.
         self.spleet_canvas.pack(expand=1, fill=BOTH)
 
-        self.youtube_canvas = Canvas(self.youtube_frame, width=self.window_width,
-                                     height=self.window_height, highlightthickness=0, background="#000000")
+        # self.youtube_canvas = Canvas(self.youtube_frame, width=self.window_width,
+        #                              height=self.window_height, highlightthickness=0, background="#000000")
+
+        self.youtube_canvas = youtube_page(root, self.youtube_frame) 
+
         self.youtube_canvas.pack(expand=1, fill=BOTH)
 
         self.help_canvas = Canvas(self.help_frame, width=self.window_width,
@@ -123,7 +127,7 @@ class MainFrame:
 
         # Create the backgrounds for each canvas.
         self.spleet_bg = self.spleet_canvas.create_image(self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
-        self.youtube_bg = self.youtube_canvas.create_image(self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
+        # self.youtube_bg = self.youtube_canvas.create_image(self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
         self.help_bg = self.help_canvas.create_image(self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
         #--------------------------------------------------------------------------
 
@@ -135,7 +139,7 @@ class MainFrame:
         
         file_browser_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
         self.file_label_border = Frame(file_browser_frame, highlightbackground=resources.button_color, highlightthickness=2, bd=0, background="black")
-        self.chosen_file_label = Label(self.file_label_border, text="File", bg="black", fg="white", width=26, height=2, font=(self.font_name, 12, self.font_weight), bd=4, anchor='w')
+        self.chosen_file_label = Label(self.file_label_border, text="File", bg="black", fg="white", width=26, height=1, font=(self.font_name, 13, self.font_weight), bd=4, anchor='w')
         self.chosen_file_label.grid(row=0, column=0, padx=5)
         self.file_label_border.grid(row=0, column=0)
 
@@ -222,7 +226,7 @@ class MainFrame:
 
         self.freq_container = canvas_element()
         self.freq_container.y_offset = 110 + check_glob_off
-        self.freq_container.x_offset = -140
+        self.freq_container.x_offset = -157
         self.freq_container.element = self.spleet_canvas.create_window(self.center_x_loc - self.freq_container.x_offset, self.center_y_loc + self.freq_container.y_offset, 
                                                                         anchor=CENTER, window=self.freq_frame)      
 
@@ -233,16 +237,16 @@ class MainFrame:
                                                              self.center_y_loc + self.freq_container.y_offset, image=self.freq_bg, anchor="center")
 
         self.freq_label = canvas_element()
-        self.freq_label.x_offset = 27
+        self.freq_label.x_offset = 21
         self.freq_label.y_offset = self.freq_container.y_offset
         self.freq_label.element = self.spleet_canvas.create_text(self.center_x_loc - self.freq_label.x_offset, self.center_y_loc + self.freq_label.y_offset, anchor=CENTER,
-                                                        text="Include High Frequencies (16KHz) ", fill="white", font=(self.font_name, 14, self.font_weight))
+                                                        text="Include High Frequencies (16kHz) ", fill="white", font=(self.font_name, 14, self.font_weight))
 
         self.black_pixel_label = Label(self.spleet_canvas, image=self.black_pixel, bd=0)
         self.black_pixel_label.pack()
 
         self.black_pixel_cv = canvas_element()
-        self.black_pixel_cv.x_offset = -125
+        self.black_pixel_cv.x_offset = -147
         self.black_pixel_cv.y_offset = 110 + check_glob_off
         self.black_pixel_cv.element = self.spleet_canvas.create_window(self.center_x_loc - self.black_pixel_cv.x_offset, self.center_y_loc + self.black_pixel_cv.y_offset, 
                                                                          anchor=CENTER, window=self.black_pixel_label)      
@@ -263,7 +267,7 @@ class MainFrame:
 
         file_save_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
         self.file_save_border = Frame(file_save_frame, highlightbackground=resources.button_color, highlightthickness=2, bd=0, background="black")
-        self.save_file_label = Label(self.file_save_border, text="Save Location", bg="black", fg="white", width=26, height=2, font=(self.font_name, 12, self.font_weight), bd=4, anchor='w')
+        self.save_file_label = Label(self.file_save_border, text="Save Location", bg="black", fg="white", width=26, height=1, font=(self.font_name, 13, self.font_weight), bd=4, anchor='w')
         self.save_file_label.grid(row=0, column=0, padx=5)
         self.file_save_border.grid(row=0, column=0)
         
@@ -355,41 +359,40 @@ class MainFrame:
         4 stems: Vocals, drums, bass, and all other sounds
         5 stems: Vocals, drums, bass, piano, and all other sounds
         \nNote: Occasionally, sounds might bleed into the wrong track(s), so you might want to try additional separation options or edit the exported audio files with other software.
-        ---------------------------------------------------------------
+        ----------------------------------------------
         \nInclude Up to 16kHz Frequency: By default, the separation process discards frequencies above 11kHz. If the 16 kHz option is checked, the exported tracks will include frequencies up to 16kHz found in the song.
         \nNote: Using the 16kHz option might result in unexpected artifacting in the exported tracks.
-        ---------------------------------------------------------------
+        ----------------------------------------------
         \nSong: Pick an audio track to separate into stems. Some supported file types are .mp3, .wav, .wma, .flac, .m4a, .aiff.
-        ---------------------------------------------------------------
+        ----------------------------------------------
         \nSave Location: Your outputted tracks will be saved to the location you choose. The exported stems will be in .wav format. If you don’t want a .wav you can convert it to a different file type in some other software.
-        ---------------------------------------------------------------
+        ----------------------------------------------
         \nSplit: When the stems are finished exporting, the progress bar will disappear. Your tracks should be in the save location you specified.
-        ---------------------------------------------------------------
+        ----------------------------------------------
         Message box: The message box is scrollable.'''
          
         self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 373, 
                                         anchor=CENTER, text="Help Page", fill="white", font=(self.font_name, 19, self.font_weight))
         
         self.help_text_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 20, width= 1000 if (self.window_width - 50) > 1000  else self.window_width - 50,
-                                        anchor=CENTER, text=help_text_label, fill="white", font=(self.font_name, 13, self.font_weight), justify="center")
+                                        anchor=CENTER, text=help_text_label, fill="white", font=(self.font_name, 10, self.font_weight), justify="center")
         #--------------------------------------------------------------------------
 
 
         #--------------------------------------------------------------------------
         #Youtube Page Code
         #--------------------------------------------------------------------------
-        # TODO write the Help info for this section too.
-        self.youtube_title_label = self.youtube_canvas.create_text(self.center_x_loc, self.center_y_loc/6, 
-                                        anchor=CENTER, text="\n\nIn Development", fill="white", font=(self.font_name, 19, self.font_weight))
+        # # TODO write the Help info for this section too.
+        # self.youtube_title_label = self.youtube_canvas.create_text(self.center_x_loc, self.center_y_loc/6, 
+        #                                 anchor=CENTER, text="\n\nIn Development", fill="white", font=(self.font_name, 19, self.font_weight))
       
         #--------------------------------------------------------------------------
-
 
 
         # Binding the resizers of each canvas
         #--------------------------------------------------------------------------
         self.spleet_canvas.bind("<Configure>", self.resize_handler)
-        self.youtube_canvas.bind("<Configure>", self.resize_handler)
+        # self.youtube_canvas.bind("<Configure>", self.resize_handler)
         self.help_canvas.bind("<Configure>", self.resize_handler)
         #--------------------------------------------------------------------------
 
@@ -542,7 +545,7 @@ class MainFrame:
 
         #canvas resize
         self.spleet_canvas.coords(self.spleet_bg, self.center_x_loc, self.center_y_loc)
-        self.youtube_canvas.coords(self.youtube_bg, self.center_x_loc, self.center_y_loc)
+        # self.youtube_canvas.coords(self.youtube_bg, self.center_x_loc, self.center_y_loc)
         self.help_canvas.coords(self.help_bg, self.center_x_loc, self.center_y_loc)
 
 
@@ -579,6 +582,6 @@ class MainFrame:
         # self.help_canvas.coords(self.help_frequency_label, self.center_x_loc, (self.center_y_loc/8 - self.center_y_loc)
         
 
-        self.youtube_canvas.coords(self.youtube_title_label, self.center_x_loc, self.center_y_loc/4)
+        # self.youtube_canvas.coords(self.youtube_title_label, self.center_x_loc, self.center_y_loc/4)
 
 
