@@ -19,7 +19,7 @@ class MainFrame:
     def __init__(self, root):
 
         # Make the window respond to windows scaling
-        windll.shcore.SetProcessDpiAwareness(0)
+        windll.shcore.SetProcessDpiAwareness(3)
         self.que = queue.Queue() #global thread status queue
         self.font_name = resources.font_name
         self.font_weight = resources.font_weight
@@ -73,6 +73,7 @@ class MainFrame:
         self.style.theme_use("tabStyle")  # Use the new style we just made.
         # -------------------------------------------------------------
 
+
         # -------------------------------------------------------------
         # Tab Setup--make a Notebook widget first, whose parent is the root window.
         # ------------------------------------------------------------
@@ -91,13 +92,12 @@ class MainFrame:
         # -------------------------------------------------------------
 
 
-
-
         # -------------------------------------------------------------
         # Canvas Setup for the 3 tabs
         # -------------------------------------------------------------
         self.spleet_canvas = Canvas(self.spleet_frame, width=self.window_width,
                                     height=self.window_height, highlightthickness=0, background="#000000")
+
         # It's apparently okay to pack the canvas before drawing things.
         self.spleet_canvas.pack(expand=1, fill=BOTH)
 
@@ -131,7 +131,7 @@ class MainFrame:
         #File Load Browser
         #--------------------------------------------------------------------------
         self.file_location = ""
-        load_glob_off = 175  #increase to move up
+        load_glob_off = 165  #increase to move up
         
         file_browser_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
         self.file_label_border = Frame(file_browser_frame, highlightbackground=resources.button_color, highlightthickness=2, bd=0, background="black")
@@ -236,7 +236,7 @@ class MainFrame:
         self.freq_label.x_offset = 27
         self.freq_label.y_offset = self.freq_container.y_offset
         self.freq_label.element = self.spleet_canvas.create_text(self.center_x_loc - self.freq_label.x_offset, self.center_y_loc + self.freq_label.y_offset, anchor=CENTER,
-                                                        text="Include High Frequencies (16kHz) ", fill="white", font=(self.font_name, 14, self.font_weight))
+                                                        text="Include High Frequencies (16KHz) ", fill="white", font=(self.font_name, 14, self.font_weight))
 
         self.black_pixel_label = Label(self.spleet_canvas, image=self.black_pixel, bd=0)
         self.black_pixel_label.pack()
@@ -328,10 +328,10 @@ class MainFrame:
 
         #Output Box
         #--------------------------------------------------------------------------
-        output_glob_off = 185 #increase to move down
+        output_glob_off = 152 #increase to move down
         output_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
         self.output_border = Frame(output_frame, highlightbackground="#b096ff", highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
-        self.output_label = Text(self.output_border, bg="black", fg="white", width=42, height=10, font=(self.font_name, 10, self.font_weight), bd=0)
+        self.output_label = Text(self.output_border, bg="black", fg="white", width=42, height=5, font=(self.font_name, 10, self.font_weight), bd=0)
         self.output_label.insert("end", "Welcome to Spleet Space!\nWaiting for input...")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
         self.output_border.grid(row=0, column=0, padx=5)
@@ -376,7 +376,7 @@ class MainFrame:
         self.help_canvas.bind("<Configure>", self.resize_handler)
         #--------------------------------------------------------------------------
 
-        #Finall show the window!
+        #Finally show the window!
         self.root.state("normal")
         self.root.focus_force()
         self.root.protocol("WM_DELETE_WINDOW", self.on_exit)
@@ -517,7 +517,7 @@ class MainFrame:
 
         # Update our window width/height variables since the window size changed.
         self.window_width = event.width
-        self.window_height = event.height
+        self.window_height = event.height + 63
 
         # Update the center location since the window size changed.
         self.center_x_loc = (self.window_width/2)

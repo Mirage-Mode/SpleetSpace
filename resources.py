@@ -3,7 +3,7 @@ import tkinter as tk
 from PIL import ImageTk, Image
 
 minsizew = 551
-minsizeh = 900
+minsizeh = 780
 resources_path = "./resources/" #Global location of resource files
 
 
