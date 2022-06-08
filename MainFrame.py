@@ -348,23 +348,45 @@ class MainFrame:
         #--------------------------------------------------------------------------
         #Help Page Code
         #--------------------------------------------------------------------------
-        # TODO write the Help info.
+        # help section's body of text:
+        help_text_label = '''
+        Stems: Choose the number of stems to separate song into.\n
+        2 stems: Vocals and Accompaniment (the music)
+        4 stems: Vocals, drums, bass, and all other sounds
+        5 stems: Vocals, drums, bass, piano, and all other sounds\n
+        Note: Occasionally, sounds might bleed into the wrong track(s), 
+        so you might want to try additional separation options or edit the exported audio files with other software.\n
+        ------------------------------------------------
+        \nInclude Up to 16kHz Frequency: By default, the separation process discards frequencies above 11kHz.
+        If the 16 kHz option is checked, the exported tracks will include frequencies up to 16kHz found in the song.\n
+        ------------------------------------------------
+        \nNote: Using the 16kHz option might result in unexpected artifacting in the exported tracks.\n
+        ------------------------------------------------
+        \nSong: Pick an audio track to separate into stems. Some supported file types are .mp3, .wav, .wma, .flac, .m4a, .aiff.\n
+        ------------------------------------------------
+        \nSave Location: Your outputted tracks will be saved to the location you choose. The exported stems will be in .wav format.
+        If you don’t want a .wav you can convert it to a different file type in some other software.\n
+        ------------------------------------------------
+        \nSplit: When the stems are finished exporting, the progress bar will disappear;
+        Your tracks should be in the save location you specified.\n
+        ------------------------------------------------
+        \nMessage box: The message box is scrollable.'''
+         
         self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc/6, 
                                         anchor=CENTER, text="Help", fill="white", font=(self.font_name, 19, self.font_weight))
         
-        self.help_stems_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc/4, 
-                                        anchor=N, text="Stems: Choose the number of stems to separate song into.", fill="white", font=(self.font_name, 14, self.font_weight), justify="left")
-        #TODO make a grid system for these texts.
+        self.help_text_label = self.help_canvas.create_text(self.center_x_loc*3, self.center_y_loc*4, 
+                                        anchor=N, text=help_text_label, fill="white", font=(self.font_name, 12, self.font_weight), justify="center")
         #--------------------------------------------------------------------------
 
 
         #--------------------------------------------------------------------------
         #Youtube Page Code
         #--------------------------------------------------------------------------
-        # TODO write the Help info.
+        # TODO write the Help info for this section too.
         self.youtube_title_label = self.youtube_canvas.create_text(self.center_x_loc, self.center_y_loc/6, 
                                         anchor=CENTER, text="\n\nIn Development", fill="white", font=(self.font_name, 19, self.font_weight))
-        #TODO make a grid system for these texts.
+      
         #--------------------------------------------------------------------------
 
 
@@ -384,7 +406,7 @@ class MainFrame:
 
 
 
-    #Gets called on exit. Removes the font resource from windows.
+    # Gets called on exit. Removes the font resource from windows.
     def on_exit(self):
         self.root.destroy()
         gdi32 = ctypes.WinDLL('gdi32')
@@ -419,7 +441,7 @@ class MainFrame:
             self.monitor_splitting_thread(self.spleet_thread)
         
         else:
-            self.output_label.insert(END, "\n\nERROR!: You must pick a song and save location")
+            self.output_label.insert(END, "\n\nERROR!: You must pick a song and save location.")
             self.output_label.see(END)
 
 
@@ -557,7 +579,9 @@ class MainFrame:
 
         # Updating the location of the Help Canvas's texts
         self.help_canvas.coords(self.help_title_label, self.center_x_loc, self.center_y_loc/6)
-        self.help_canvas.coords(self.help_stems_title_label, self.center_x_loc, self.center_y_loc/4)
+        self.help_canvas.coords(self.help_text_label, self.center_x_loc, self.center_y_loc/4)
+        # self.help_canvas.coords(self.help_frequency_label, self.center_x_loc, (self.center_y_loc/8 - self.center_y_loc)
+        
 
         self.youtube_canvas.coords(self.youtube_title_label, self.center_x_loc, self.center_y_loc/4)
 
