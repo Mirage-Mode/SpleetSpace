@@ -144,19 +144,19 @@ class MainFrame:
         self.file_label_border.grid(row=0, column=0)
 
         self.file_browser_container = canvas_element()
-        self.file_browser_container.x_offset = 60
+        self.file_browser_container.x_offset = 66
         self.file_browser_container.y_offset = 160 + load_glob_off
         self.file_browser_container.element = self.spleet_canvas.create_window(self.center_x_loc, self.center_y_loc + self.file_browser_container.y_offset, 
                                                                             anchor=CENTER, window=file_browser_frame)
 
         self.file_title = canvas_element()
-        self.file_title.x_offset = 190
+        self.file_title.x_offset = 203
         self.file_title.y_offset = 198 + load_glob_off
         self.file_title.element = self.spleet_canvas.create_text(self.center_x_loc - self.file_title.x_offset, self.center_y_loc - self.file_title.y_offset, anchor=W,
                                                              text="Song", fill="white", font=(self.font_name, 14, self.font_weight))
 
         self.file_browser_button = canvas_element()
-        self.file_browser_button.x_offset = 150
+        self.file_browser_button.x_offset = 154
         self.file_browser_button.y_offset = 160 + load_glob_off
         self.file_browser_button.element = self.spleet_canvas.create_image(self.center_x_loc,
                                                              self.center_y_loc + self.file_browser_button.y_offset, tags="browseButton", image=self.browse_button_img, anchor="center")
@@ -260,7 +260,7 @@ class MainFrame:
         self.save_location = ""
         save_glob_off = 239 #increase to move up
         self.file_save_title = canvas_element()
-        self.file_save_title.x_offset = 190
+        self.file_save_title.x_offset = 203
         self.file_save_title.y_offset = -225 + save_glob_off
         self.file_save_title.element = self.spleet_canvas.create_text(self.center_x_loc - self.file_save_title.x_offset, self.center_y_loc - self.file_save_title.y_offset, anchor=W,
                                                              text="Save Location", fill="white", font=(self.font_name, 14, self.font_weight))
@@ -272,13 +272,13 @@ class MainFrame:
         self.file_save_border.grid(row=0, column=0)
         
         self.file_save_container = canvas_element()
-        self.file_save_container.x_offset = 60
+        self.file_save_container.x_offset = 66
         self.file_save_container.y_offset = -265 + save_glob_off
         self.file_save_container.element = self.spleet_canvas.create_window(self.center_x_loc, self.center_y_loc + self.file_save_container.y_offset, 
                                                                             anchor=CENTER, window=file_save_frame)
 
         self.save_browser_button = canvas_element()
-        self.save_browser_button.x_offset = 150
+        self.save_browser_button.x_offset = 154
         self.save_browser_button.y_offset = -265 + save_glob_off
         self.save_browser_button.element = self.spleet_canvas.create_image(self.center_x_loc,
                                                              self.center_y_loc + self.file_browser_button.y_offset, tags="saveButton", image=self.save_button_img, anchor="center")
@@ -333,19 +333,19 @@ class MainFrame:
         #Output Box
         #--------------------------------------------------------------------------
         output_glob_off = 133 #increase to move down
-        output_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
-        self.output_border = Frame(output_frame, highlightbackground="#b096ff", highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
-        self.output_label = Text(self.output_border, bg="black", fg="white", width=42, height=5, font=(self.font_name, 10, self.font_weight), bd=0)
+
+        self.output_border = Frame(self.spleet_canvas, highlightbackground="#b096ff", highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
+        self.output_label = Text(self.output_border, bg="black", fg="white", width=49, height=5, font=(self.font_name, 10, self.font_weight), bd=0)
         self.output_label.insert("end", "Welcome to Spleet Space!\nWaiting for input...")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
         self.output_border.grid(row=0, column=0, padx=5)
 
-        output_frame.pack()
+        self.output_border.pack()
 
         self.output_container = canvas_element()
         self.output_container.y_offset = 120 + output_glob_off
         self.output_container.element = self.spleet_canvas.create_window(self.center_x_loc, self.center_y_loc + self.output_container.y_offset, 
-                                                                            anchor=CENTER, window=output_frame)
+                                                                            anchor=CENTER, window=self.output_border)
         #--------------------------------------------------------------------------
 
 
@@ -371,7 +371,7 @@ class MainFrame:
         ----------------------------------------------
         Message box: The message box is scrollable.'''
          
-        self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 373, 
+        self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 335, 
                                         anchor=CENTER, text="Help Page", fill="white", font=(self.font_name, 19, self.font_weight))
         
         self.help_text_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 20, width= 1000 if (self.window_width - 50) > 1000  else self.window_width - 50,
@@ -576,7 +576,7 @@ class MainFrame:
         self.spleet_canvas.coords(self.output_container.element, self.center_x_loc - self.output_container.x_offset, self.center_y_loc + self.output_container.y_offset)
 
         # Updating the location of the Help Canvas's texts
-        self.help_canvas.coords(self.help_title_label, self.center_x_loc, self.center_y_loc - 373)
+        self.help_canvas.coords(self.help_title_label, self.center_x_loc, self.center_y_loc - 335)
         self.help_canvas.coords(self.help_text_label, self.center_x_loc, self.center_y_loc - 20)
         self.help_canvas.itemconfigure(self.help_text_label, width= 1000 if (self.window_width - 50) > 1000  else self.window_width - 50)
         # self.help_canvas.coords(self.help_frequency_label, self.center_x_loc, (self.center_y_loc/8 - self.center_y_loc)
