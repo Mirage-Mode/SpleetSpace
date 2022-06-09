@@ -4,7 +4,7 @@ from PIL import ImageTk, Image
 
 minsizew = 560
 minsizeh = 755
-resources_path = "./resources/" #Global location of resource files
+resources_path = "./resources/"  # Global location of resource files
 
 
 # -------------------------------------------------------------
@@ -23,11 +23,11 @@ stems_bg_path = resources_path + "StemOptions.png"
 black_pixel_path = resources_path + "blackPixel.png"
 check_on_img_path = resources_path + "checkOn.png"
 check_off_img_path = resources_path + "checkOff.png"
-freq_bg_path = resources_path + "FreqLine.png"
+freq_bg_path = resources_path + "FreqLine2.png"
 save_button_img_path = resources_path + "Button.png"
-split_button_img_path = resources_path + "SplitButton.png"
+split_button_img_path = resources_path + "SplitButton2.png"
 
-#Colors
+# Colors
 mid_block_color = "#AAFF65"
 button_color = "#7D50FF"
 prog_bar_color = "#EABEFF"
