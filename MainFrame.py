@@ -71,7 +71,6 @@ class MainFrame:
         self.rend_image = ImageTk.PhotoImage(self.resized_background_image)
         # -------------------------------------------------------------
 
-
         # -------------------------------------------------------------
         # STYLES
         # -------------------------------------------------------------
@@ -86,7 +85,6 @@ class MainFrame:
 
         self.style.theme_use("tabStyle")  # Use the new style we just made.
         # -------------------------------------------------------------
-
 
         # -------------------------------------------------------------
         # Tab Setup--make a Notebook widget first, whose parent is the root window.
@@ -111,7 +109,6 @@ class MainFrame:
         self.tab_controller.pack(fill=BOTH, expand=1)
         # -------------------------------------------------------------
 
-
         # -------------------------------------------------------------
         # Canvas Setup for the 3 tabs
         # -------------------------------------------------------------
@@ -121,8 +118,8 @@ class MainFrame:
         # It's apparently okay to pack the canvas before drawing things.
         self.spleet_canvas.pack(expand=1, fill=BOTH)
 
-        # TODO: the YT download page's bg doesn't resize.
-        self.youtube_page = youtube_page(root, self.youtube_frame, self.rend_image)
+        self.youtube_page = youtube_page(
+            root, self.youtube_frame, self.rend_image)
         self.youtube_canvas = self.youtube_page.youtube_canvas
         self.youtube_canvas.pack(expand=1, fill=BOTH)
 
@@ -131,8 +128,6 @@ class MainFrame:
 
         self.help_canvas.pack(expand=1, fill=BOTH)
         # -------------------------------------------------------------
-
-
 
         # -------------------------------------------------------------
         # Background Setup
@@ -146,12 +141,10 @@ class MainFrame:
 
         # self.youtube_canvas.tag_lower(self.youtube_bg)
 
-
         self.help_bg = self.help_canvas.create_image(
             self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
 
         # --------------------------------------------------------------------------
-
 
         # --------------------------------------------------------------------------
         # File Load Browser
@@ -236,6 +229,7 @@ class MainFrame:
                                                               self.center_y_loc + self.stems_label.y_offset, image=self.stems_bg, anchor="center")
         # --------------------------------------------------------------------------
 
+        # --------------------------------------------------------------------------
         # CheckBox Code
         # --------------------------------------------------------------------------
         check_glob_off = -195  # increase to move up
@@ -279,8 +273,7 @@ class MainFrame:
 
         # --------------------------------------------------------------------------
 
-
-
+        # --------------------------------------------------------------------------
         # File Save Browser
         # --------------------------------------------------------------------------
         self.save_location = ""
@@ -316,11 +309,9 @@ class MainFrame:
             "saveButton", "<Enter>", lambda event: on_cursor_overlap(self.spleet_canvas))
         self.spleet_canvas.tag_bind(
             "saveButton", "<Leave>", lambda event: on_cursor_endoverlap(self.spleet_canvas))
-
         # --------------------------------------------------------------------------
 
-
-
+        # --------------------------------------------------------------------------
         # Split Button
         # --------------------------------------------------------------------------
         split_glob_off = 120  # increase to move down
@@ -338,9 +329,7 @@ class MainFrame:
             "splitButton", "<Leave>", lambda event: on_cursor_endoverlap(self.spleet_canvas))
         # --------------------------------------------------------------------------
 
-
-
-
+        # --------------------------------------------------------------------------
         # Progress Bar
         # --------------------------------------------------------------------------
         self.prog_bar_running = False  # Is the prog bar running or not.
@@ -366,15 +355,17 @@ class MainFrame:
                                                                            anchor=CENTER, window=prog_bar_frame)
         # --------------------------------------------------------------------------
 
+        # --------------------------------------------------------------------------
+        # Output Box
+        # --------------------------------------------------------------------------
+        output_glob_off = 133  # increase to move down
 
-
-        #Output Box
-        #--------------------------------------------------------------------------
-        output_glob_off = 133 #increase to move down
-
-        self.output_border = Frame(self.spleet_canvas, highlightbackground="#b096ff", highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
-        self.output_label = Text(self.output_border, bg="black", fg="white", width=49, height=5, font=(self.font_name, 10, self.font_weight), bd=0)
-        self.output_label.insert("end", "Welcome to Spleet Space!\nWaiting for input...")
+        self.output_border = Frame(self.spleet_canvas, highlightbackground="#b096ff",
+                                   highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
+        self.output_label = Text(self.output_border, bg="black", fg="white", width=49, height=5, font=(
+            self.font_name, 10, self.font_weight), bd=0)
+        self.output_label.insert(
+            END, "Welcome to Spleet Space!\nWaiting for input...")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
         self.output_border.grid(row=0, column=0, padx=5)
 
@@ -382,11 +373,9 @@ class MainFrame:
 
         self.output_container = canvas_element()
         self.output_container.y_offset = 120 + output_glob_off
-        self.output_container.element = self.spleet_canvas.create_window(self.center_x_loc, self.center_y_loc + self.output_container.y_offset, 
-                                                                            anchor=CENTER, window=self.output_border)
-        #--------------------------------------------------------------------------
-
-
+        self.output_container.element = self.spleet_canvas.create_window(self.center_x_loc, self.center_y_loc + self.output_container.y_offset,
+                                                                         anchor=CENTER, window=self.output_border)
+        # --------------------------------------------------------------------------
 
         # --------------------------------------------------------------------------
         # Help Page Code
@@ -408,17 +397,14 @@ class MainFrame:
         ----------------------------------------------
         \nSplit: When the stems are finished exporting, the progress bar will disappear. Your tracks should be in the save location you specified.
         ----------------------------------------------
-        Message box: The message box is scrollable.'''
-         
-        self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 335, 
-                                        anchor=CENTER, text="Help Page", fill="white", font=(self.font_name, 19, self.font_weight))
-        
-        self.help_text_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 20, width= 1000 if (self.window_width - 50) > 1000  else self.window_width - 50,
-                                        anchor=CENTER, text=help_text_label, fill="white", font=(self.font_name, 10, self.font_weight), justify="center")
-        #--------------------------------------------------------------------------
+        Message boxes: The message boxes are scrollable.'''
 
+        self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 335,
+                                                             anchor=CENTER, text="Help Page", fill="white", font=(self.font_name, 19, self.font_weight))
 
-
+        self.help_text_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 20, width=1000 if (self.window_width - 50) > 1000 else self.window_width - 50,
+                                                            anchor=CENTER, text=help_text_label, fill="white", font=(self.font_name, 10, self.font_weight), justify="center")
+        # --------------------------------------------------------------------------
 
         # --------------------------------------------------------------------------
         # Youtube Page Code
@@ -438,8 +424,7 @@ class MainFrame:
 
         # --------------------------------------------------------------------------
 
-
-
+        # --------------------------------------------------------------------------
         # Binding the resizers of each canvas
         # --------------------------------------------------------------------------
         self.spleet_canvas.bind("<Configure>", self.resize_handler)
@@ -454,30 +439,24 @@ class MainFrame:
         root.geometry('%dx%d+%d+%d' % (resources.minsizew,
                       resources.minsizeh, window_x_location, window_y_location))
 
-
-
-
     # Gets called on exit. Removes the font resource from windows.
+
     def on_exit(self):
         self.root.destroy()
         gdi32 = ctypes.WinDLL('gdi32')
         gdi32.RemoveFontResourceW(resources.font_path)
 
-
-
-
     # Starts the prog bar animation
+
     def run_progbar_anim(self):
         if self.prog_bar_running:
             self.prog_bar.step(2)
             self.root.after(10, self.run_progbar_anim)
 
-
-
-
     # Function for splitting songs
     # Starts a thread to split the song.
     # A thread is necessary so the gui doesn't freeze up while the song is being split
+
     def split_song(self, event):
 
         if self.save_location != "" and self.file_location != "":
@@ -501,10 +480,8 @@ class MainFrame:
                 END, "\n\nERROR!: You must pick a song and save location.")
             self.output_label.see(END)
 
-
-
-
     # The thread responsible for splitting the song.
+
     def splitter_thread(self, stems, freq, que):
 
         freq_option = ""
@@ -521,10 +498,8 @@ class MainFrame:
             command, creationflags=CREATE_NO_WINDOW, capture_output=True, text=True)
         que.put(process.stdout)
 
-
-
-
     # Monitors the splitting thread to see when it finishes.
+
     def monitor_splitting_thread(self, thread):
         if thread.is_alive():
             self.root.after(100, lambda: self.monitor_splitting_thread(thread))
@@ -541,10 +516,8 @@ class MainFrame:
             self.output_label.see(END)
             # self.que.queue.clear()
 
-
-
-
     # Radio Button Handler
+
     def freq_checkbox_handler(self):
         if self.freq_selection.get():
             self.output_label.insert(
@@ -555,18 +528,12 @@ class MainFrame:
 
         self.output_label.see(END)
 
-
-
-
     # Radio Button Handler
+
     def set_stem_option(self):
         self.output_label.insert(
             END, "\n\nStem Option set to: " + str(self.stem_option_selection.get()))
         self.output_label.see(END)
-
-
-
-
 
     # Function for opening the file Browser
     def browse_files(self, event):
@@ -589,9 +556,8 @@ class MainFrame:
 
         self.output_label.see(END)
 
-
-
     # Function for opening the file Browser
+
     def browse_save_location(self, event):
 
         self.save_location = filedialog.askdirectory()
@@ -609,10 +575,8 @@ class MainFrame:
 
         self.output_label.see(END)
 
-
-
-
     # This function gets fired every time the windows is resized or moved. Updates the position of each UI element.
+
     def resize_handler(self, event):
 
         # Update our window width/height variables since the window size changed.
@@ -628,10 +592,9 @@ class MainFrame:
             self.spleet_bg, self.center_x_loc, self.center_y_loc)
 
         # self.youtube_canvas.tag_lower(self.youtube_bg)
-        
+
         # self.youtube_canvas.coords(
-            # self.youtube_bg, self.center_x_loc, self.center_y_loc)
-        
+        # self.youtube_bg, self.center_x_loc, self.center_y_loc)
 
         self.help_canvas.coords(
             self.help_bg, self.center_x_loc, self.center_y_loc)
@@ -668,7 +631,7 @@ class MainFrame:
         self.spleet_canvas.coords(self.black_pixel_cv.element, self.center_x_loc -
                                   self.black_pixel_cv.x_offset, self.center_y_loc + self.black_pixel_cv.y_offset)
 
-        # Splits Button
+        # Split Button
         self.spleet_canvas.coords(self.split_button.element, self.center_x_loc -
                                   self.split_button.x_offset, self.center_y_loc + self.split_button.y_offset)
         self.spleet_canvas.coords(self.prog_bar_container.element, self.center_x_loc -
@@ -677,9 +640,12 @@ class MainFrame:
                                   self.output_container.x_offset, self.center_y_loc + self.output_container.y_offset)
 
         # Updating the location of the Help Canvas's texts
-        self.help_canvas.coords(self.help_title_label, self.center_x_loc, self.center_y_loc - 335)
-        self.help_canvas.coords(self.help_text_label, self.center_x_loc, self.center_y_loc - 20)
-        self.help_canvas.itemconfigure(self.help_text_label, width= 1000 if (self.window_width - 50) > 1000  else self.window_width - 50)
+        self.help_canvas.coords(self.help_title_label,
+                                self.center_x_loc, self.center_y_loc - 335)
+        self.help_canvas.coords(self.help_text_label,
+                                self.center_x_loc, self.center_y_loc - 20)
+        self.help_canvas.itemconfigure(self.help_text_label, width=1000 if (
+            self.window_width - 50) > 1000 else self.window_width - 50)
         # self.help_canvas.coords(self.help_frequency_label, self.center_x_loc, (self.center_y_loc/8 - self.center_y_loc)
 
         # self.youtube_canvas.coords(self.youtube_title_label, self.center_x_loc, self.center_y_loc/4)
