@@ -391,7 +391,7 @@ class MainFrame:
         \nInclude Up to 16kHz Frequency: By default, the separation process discards frequencies above 11kHz. If the 16 kHz option is checked, the exported tracks will include frequencies up to 16kHz found in the song.
         \nNote: Using the 16kHz option might result in unexpected artifacting in the exported tracks.
         ----------------------------------------------
-        \nSong: Pick an audio track to separate into stems. Some supported file types are .mp3, .wav, .wma, .flac, .m4a, .aiff, .ogg.
+        \nSong: Pick an audio track to separate into stems. Some supported file types are .mp3, .mp4, .m4a, .wav, .wma, .flac, .aiff, .webm, .ogg.
         ----------------------------------------------
         \nSave Location: Your outputted tracks will be saved to the location you choose. The exported stems will be in .wav format.
         ----------------------------------------------
@@ -539,7 +539,7 @@ class MainFrame:
     def browse_files(self, event):
 
         self.file_location = filedialog.askopenfilename(
-            initialdir="/", title="Select a File", filetypes=[("Audio File", "*.mp3 *.m4a *wav *ogg *wma *flac *aiff")])
+            initialdir="/", title="Select a File", filetypes=[("Audio File", "*.mp3 *mp4 *.m4a *.wav *.ogg *.wma *.flac *.aiff *.webm")])
 
         if (self.file_location == ""):
             self.chosen_file_label.configure(text="File Location")
