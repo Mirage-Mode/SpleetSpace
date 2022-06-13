@@ -64,7 +64,7 @@ class youtube_page:
             file_browser_frame, highlightbackground=resources.download_pg_frame_color, highlightthickness=3, bd=0, background="black", highlightcolor=resources.download_pg_frame_color)
 
         self.chosen_file_label = Text(self.file_label_border, bg="black", fg="white", width=36, height=1,
-                                      font=(self.font_name, 13, self.font_weight), bd=0, highlightthickness=0)
+                                      font=(self.font_name, 13, self.font_weight), bd=0, highlightthickness=0, wrap=NONE)
 
         # Placeholder text for the URL box:
         self.chosen_file_label.insert(END, "https://youtu.be/zliasEkWx0M")  # Skrillex, Starrah & Four Tet - Butterflies (Official Music Video)
@@ -228,9 +228,9 @@ class youtube_page:
                     self.output_label.see(END)
 
 
-                except Exception: # is supposed to correspond to a general VideoUnavailable error
+                except Exception:  # is supposed to correspond to a general VideoUnavailable error
 
-                    self.watch_html = request.get(url=self.song_link) 
+                    self.watch_html = request.get(url=self.song_link)
 
                     # Check if the video is private.                    
                     if (extract.is_private(self.watch_html)):
@@ -240,7 +240,7 @@ class youtube_page:
                     # Check if age restrcicted
                     elif (extract.is_age_restricted(self.watch_html)):
                             self.output_label.insert(
-                                END, "\n\nDownloading the song failed because the video for it is age-restricted. Try to find a non-age restricted video containing this song and try again. Error: \n")
+                                END, "\n\nDownloading the song failed because the video is age-restricted. Try to find a non-age restricted video for this song and try again.\n")
                             self.output_label.see(END)
                     else:
                         self.output_label.insert(
