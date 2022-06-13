@@ -205,11 +205,9 @@ class youtube_page:
         # Checking for empty song link here.
         elif (self.song_link == ""):
             # corresponds to blank input for URL.
-                # TODO this is also thrown when the video is age restricted and probably when the video is private too :/
             self.output_label.insert(
                 END, "\n\nThere's something wrong with the link you entered. Make sure you entered it correctly and that it's not blank.\n")
             self.output_label.see(END)
-
 
         else:  # If we reach this line, we have a valid URL and save location
 
@@ -228,28 +226,25 @@ class youtube_page:
                     self.output_label.see(END)
 
 
-                except Exception:  # is supposed to correspond to a general VideoUnavailable error
+                except Exception:  # corresponds to a general VideoUnavailable error
 
                     self.watch_html = request.get(url=self.song_link)
 
-                    # Check if the video is private.                    
+                    # Check if the video is private
                     if (extract.is_private(self.watch_html)):
-                       self.output_label.insert(END, "\nDownloading the song failed. The video is private. Please change the video link to a public video.\n")
+                       self.output_label.insert(END, "\nDownloading the song failed: the video is private. Please use a public video to download from.\n")
                        self.output_label.see(END)
 
-                    # Check if age restrcicted
+                    # Check if the video is age-restrcicted
                     elif (extract.is_age_restricted(self.watch_html)):
                             self.output_label.insert(
-                                END, "\n\nDownloading the song failed because the video is age-restricted. Try to find a non-age restricted video for this song and try again.\n")
+                                END, "\n\nDownloading the song failed: the video is age-restricted. Use a non-age restricted video and try again.\n")
                             self.output_label.see(END)
                     else:
                         self.output_label.insert(
-                            END, "\n\nDownloading the song failed. The video is Unavailable. Make sure the video wasn't removed, is public, is not Members-only (paid content), and is NOT age-restricted. The video cannot be a livestream either. Please find an alernative video to download.\n\n")
-                        self.output_label.see(END)           
+                            END, "\n\nDownloading the song failed. The video is unavailable. Make sure the video wasn't removed, is public, is not Members-only (paid content), and is NOT age-restricted. The video cannot be a livestream either. Please find an alernative video to download.\n\n")
+                        self.output_label.see(END)       
     # --------------------------------------------------------------------------------------------
-
-
-
 
     # --------------------------------------------------------------------------------------------
     def resize_handler(self, event):
