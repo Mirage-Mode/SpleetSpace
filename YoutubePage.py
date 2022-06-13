@@ -11,10 +11,9 @@ import threading
 from utils import *
 from ctypes import windll
 import resources
+from pytube import YouTube
 
 # Main window containing all gui elements for the download from YouTube tab.
-
-
 class youtube_page:
 
     def __init__(self, root, parent, bg_img):
@@ -26,8 +25,8 @@ class youtube_page:
         self.window_height = root.winfo_height()
 
         # Global center location. Can be used to center everything that has anchor=CENTER.
-        self.center_x_loc = (self.window_width/2)
-        self.center_y_loc = (self.window_height/2)
+        self.center_x_loc = (self.window_width / 2)
+        self.center_y_loc = (self.window_height / 2)
 
         self.youtube_canvas = Canvas(parent, width=self.window_width,
                                      height=self.window_height, highlightthickness=0, background="black")
@@ -67,6 +66,9 @@ class youtube_page:
         self.chosen_file_label = Text(self.file_label_border, bg="black", fg="white", width=36, height=1,
                                       font=(self.font_name, 13, self.font_weight), bd=0, highlightthickness=0)
 
+        # Placeholder text for the URL box:
+        self.chosen_file_label.insert(END, "https://youtu.be/zliasEkWx0M")  # Skrillex, Starrah & Four Tet - Butterflies (Official Music Video)
+
         self.chosen_file_label.grid(row=0, column=0, padx=5)
         self.file_label_border.grid(row=0, column=0)
 
@@ -82,11 +84,8 @@ class youtube_page:
         self.file_title.element = self.youtube_canvas.create_text(self.center_x_loc - self.file_title.x_offset, self.center_y_loc - self.file_title.y_offset, anchor=W,
                                                                   text="Youtube URL", fill="white", font=(self.font_name, 14, self.font_weight))
 
-        # Placeholder text for the URL box.
-        self.chosen_file_label.insert(END, "https://youtu.be/zliasEkWx0M")
-
         # self.youtube_canvas.tag_bind(
-        #     "browseButton", "<Button-1>", self.browse_files)
+        #     "browseButton", "<Button-1>", self.browse_save_location)
         # --------------------------------------------------------------------------
 
         # --------------------------------------------------------------------------
@@ -139,11 +138,11 @@ class youtube_page:
         self.download_button.element = self.youtube_canvas.create_image(self.center_x_loc,
                                                                         self.center_y_loc + self.download_button.y_offset, tags="downloadButton", image=self.download_button_img, anchor="center")
         self.youtube_canvas.tag_bind(
-            "download_button_img", "<Button-1>", self.download_song)
+            "downloadButton", "<Button-1>", self.download_song)
         self.youtube_canvas.tag_bind(
-            "download_button_img", "<Enter>", lambda event: on_cursor_overlap(self.youtube_canvas))
+            "downloadButton", "<Enter>", lambda event: on_cursor_overlap(self.youtube_canvas))
         self.youtube_canvas.tag_bind(
-            "download_button_img", "<Leave>", lambda event: on_cursor_endoverlap(self.youtube_canvas))
+            "downloadButton", "<Leave>", lambda event: on_cursor_endoverlap(self.youtube_canvas))
         # --------------------------------------------------------------------------
 
         # --------------------------------------------------------------------------
@@ -173,7 +172,7 @@ class youtube_page:
         self.youtube_canvas.bind("<Configure>", self.resize_handler)
 
     # --------------------------------------------------------------------------
-    # Function for opening the file Browser
+    # Function for opening the file Browser to save the video to.
     # --------------------------------------------------------------------------
     def browse_save_location(self, event):
 
@@ -188,18 +187,23 @@ class youtube_page:
             self.save_file_label.configure(text="" + self.save_location)
             self.save_file_label.configure(anchor="e")
             self.output_label.insert(
-                END, "\n\nSave location set to: " + self.save_location)
+                END, "\n\nSave location set to: " + self.save_location + "\n")
 
         self.output_label.see(END)
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # TODO corresponds to download_song
-    # Function for downloading songs from YouTube.
+    # Download a Song's audio-only from YouTube
     # --------------------------------------------------------------------------
 
     def download_song(self, event):
-        print("Downloaded song.\n")
+        self.output_label.insert(END, "Downloading your song now.\n")
+        self.song_link = self.chosen_file_label.get("1.0",END)
+        self.yt = YouTube(self.song_link)  # make a YouTube object
+        self.audio_stream = self.yt.streams.filter(only_audio=True).first()  # returns an MP4 by default.
+        self.audio_stream.download(output_path=self.save_location)
+        self.output_label.insert(
+            END, "\n\nFinished downloading the song to: " + self.save_location + "\n")
     # --------------------------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------------------------
@@ -236,8 +240,8 @@ class youtube_page:
                                    self.download_button.x_offset, self.center_y_loc + self.download_button.y_offset)
         self.youtube_canvas.coords(self.output_container.element, self.center_x_loc -
                                    self.output_container.x_offset, self.center_y_loc + self.output_container.y_offset)
-
-        # Output
+      
+        # Output box
         self.youtube_canvas.coords(self.output_container.element, self.center_x_loc -
                                    self.output_container.x_offset, self.center_y_loc + self.output_container.y_offset)
 

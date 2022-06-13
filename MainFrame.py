@@ -186,6 +186,7 @@ class MainFrame:
             "browseButton", "<Leave>", lambda event: on_cursor_endoverlap(self.spleet_canvas))
         # --------------------------------------------------------------------------
 
+        # ----------------------------------------------------------------------------------
         # Stems Code
         # ----------------------------------------------------------------------------------
         stems_glob_off = 145  # increase to move up
@@ -440,14 +441,12 @@ class MainFrame:
                       resources.minsizeh, window_x_location, window_y_location))
 
     # Gets called on exit. Removes the font resource from windows.
-
     def on_exit(self):
         self.root.destroy()
         gdi32 = ctypes.WinDLL('gdi32')
         gdi32.RemoveFontResourceW(resources.font_path)
 
     # Starts the prog bar animation
-
     def run_progbar_anim(self):
         if self.prog_bar_running:
             self.prog_bar.step(2)
@@ -557,7 +556,6 @@ class MainFrame:
         self.output_label.see(END)
 
     # Function for opening the file Browser
-
     def browse_save_location(self, event):
 
         self.save_location = filedialog.askdirectory()
@@ -575,8 +573,8 @@ class MainFrame:
 
         self.output_label.see(END)
 
-    # This function gets fired every time the windows is resized or moved. Updates the position of each UI element.
 
+    # This function gets fired every time the windows is resized or moved. Updates the position of each UI element.
     def resize_handler(self, event):
 
         # Update our window width/height variables since the window size changed.
