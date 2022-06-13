@@ -194,37 +194,58 @@ class youtube_page:
     # --------------------------------------------------------------------------
 
     def download_song(self, event):
+        self.song_link = self.chosen_file_label.get("1.0", END)
+
+        # Checking for empty save location
         if (self.save_location == ""):
             self.output_label.insert(
             END, "\n\nPlease pick a location to save the downloaded song to before clicking 'Download'.\n")
             self.output_label.see(END)
-        else:  # the save location was picked. attempting to get the video link now.
-            self.song_link = self.chosen_file_label.get("1.0", END)              
-            # Assume that the video is public and not age-restricted. Proceed to download the audio stream only.
-            self.yt = YouTube(self.song_link)  # make a YouTube object from the video link
-            # self.sdata = self.yt.age_restricted(self.song_link)
 
-            # self.output_label.insert(END, "\n\nStarting to download your song now.\n")
-            # self.output_label.see(END)
-            # self.audio_stream = self.yt.streams.filter(only_audio=True).first()  # returns an MP4 by default.
-            # self.output_label.insert(
-            #     END, "\nRetrieved the audio stream.\n")
-            # self.output_label.see(END)
-            # self.audio_stream.download(output_path=self.save_location)
-            # self.output_label.insert(
-            #     END, "\n\nSuccessfully downloaded the song to: " + self.save_location + "\n")
-            # self.output_label.see(END)
-            # Check if the video is age-restricted:
-            self.watch_html = request.get(url=self.song_link)
-            print(extract.is_age_restricted(self.watch_html))
-            if (extract.is_age_restricted(self.watch_html)):
-                self.output_label.insert(
-                    END, "\n\nDownloading the song failed because the video for it is age-restricted. Try to find a non-age restricted video containing this song and try again. Error: \n")
-                self.output_label.see(END)
-            else:
-                self.output_label.insert(
-                    END, "\n\nDownloading the song failed. The video is Unavailable. Make sure the video wasn't removed, is public, is not Members-only (paid content), and is NOT age-restricted. The video cannot be a livestream either. Please find an alernative video to download.\n\n")
-                self.output_label.see(END)
+        # Checking for empty song link here.
+        elif (self.song_link == ""):
+            # corresponds to blank input for URL.
+                # TODO this is also thrown when the video is age restricted and probably when the video is private too :/
+            self.output_label.insert(
+                END, "\n\nThere's something wrong with the link you entered. Make sure you entered it correctly and that it's not blank.\n")
+            self.output_label.see(END)
+
+
+        else:  # If we reach this line, we have a valid URL and save location
+
+                try:
+                    # Assume that the video is public and not age-restricted. Proceed to download the audio stream only.
+                    self.yt = YouTube(self.song_link)  # make a YouTube object from the video link
+                    self.output_label.insert(END, "\n\nStarting to download your song now.\n")
+                    self.output_label.see(END)
+                    self.audio_stream = self.yt.streams.filter(only_audio=True).first()  # returns an MP4 by default.
+                    self.output_label.insert(
+                        END, "\nRetrieved the audio stream.\n")
+                    self.output_label.see(END)
+                    self.audio_stream.download(output_path=self.save_location)
+                    self.output_label.insert(
+                        END, "\n\nSuccessfully downloaded the song to: " + self.save_location + "\n")
+                    self.output_label.see(END)
+
+
+                except Exception: # is supposed to correspond to a general VideoUnavailable error
+
+                    self.watch_html = request.get(url=self.song_link) 
+
+                    # Check if the video is private.                    
+                    if (extract.is_private(self.watch_html)):
+                       self.output_label.insert(END, "\nDownloading the song failed. The video is private. Please change the video link to a public video.\n")
+                       self.output_label.see(END)
+
+                    # Check if age restrcicted
+                    elif (extract.is_age_restricted(self.watch_html)):
+                            self.output_label.insert(
+                                END, "\n\nDownloading the song failed because the video for it is age-restricted. Try to find a non-age restricted video containing this song and try again. Error: \n")
+                            self.output_label.see(END)
+                    else:
+                        self.output_label.insert(
+                            END, "\n\nDownloading the song failed. The video is Unavailable. Make sure the video wasn't removed, is public, is not Members-only (paid content), and is NOT age-restricted. The video cannot be a livestream either. Please find an alernative video to download.\n\n")
+                        self.output_label.see(END)           
     # --------------------------------------------------------------------------------------------
 
 
