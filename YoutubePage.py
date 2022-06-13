@@ -83,9 +83,6 @@ class youtube_page:
         self.file_title.y_offset = 198 + load_glob_off
         self.file_title.element = self.youtube_canvas.create_text(self.center_x_loc - self.file_title.x_offset, self.center_y_loc - self.file_title.y_offset, anchor=W,
                                                                   text="Youtube URL", fill="white", font=(self.font_name, 14, self.font_weight))
-
-        # self.youtube_canvas.tag_bind(
-        #     "browseButton", "<Button-1>", self.browse_save_location)
         # --------------------------------------------------------------------------
 
         # --------------------------------------------------------------------------
@@ -157,7 +154,7 @@ class youtube_page:
         self.output_label = Text(self.output_border, bg="black", fg="white", width=49, height=15, font=(
             self.font_name, 10, self.font_weight), bd=0)
         self.output_label.insert(
-            END, "Welcome to the Youtube MP3 Downloader!\nType into the URL box, set a location to save the file into, and then click 'Download'.")
+            END, "Welcome to the Youtube MP3 Downloader!\nType into the URL box, set a location to save the file into, and then click 'Download'. You will recieve a .MP4 file upon success.")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
         self.output_border.grid(row=0, column=0, padx=5)
 
@@ -197,13 +194,19 @@ class youtube_page:
     # --------------------------------------------------------------------------
 
     def download_song(self, event):
-        self.output_label.insert(END, "Downloading your song now.\n")
-        self.song_link = self.chosen_file_label.get("1.0",END)
-        self.yt = YouTube(self.song_link)  # make a YouTube object
-        self.audio_stream = self.yt.streams.filter(only_audio=True).first()  # returns an MP4 by default.
-        self.audio_stream.download(output_path=self.save_location)
-        self.output_label.insert(
-            END, "\n\nFinished downloading the song to: " + self.save_location + "\n")
+        if (self.save_location == ""):
+            self.output_label.insert(
+            END, "\n\nPlease pick a location to save the downloaded song to before clicking 'Download'.\n")
+        else:
+            self.output_label.insert(END, "\n\nStarting to download your song now.\n")
+            self.song_link = self.chosen_file_label.get("1.0", END)
+            self.yt = YouTube(self.song_link)  # make a YouTube object
+            self.audio_stream = self.yt.streams.filter(only_audio=True).first()  # returns an MP4 by default.
+            self.output_label.insert(
+                END, "\nRetrieved the audio stream.\n")
+            self.audio_stream.download(output_path=self.save_location)
+            self.output_label.insert(
+                END, "\n\nSuccessfully downloaded the song to: " + self.save_location + "\n")
     # --------------------------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------------------------
@@ -244,18 +247,3 @@ class youtube_page:
         # Output box
         self.youtube_canvas.coords(self.output_container.element, self.center_x_loc -
                                    self.output_container.x_offset, self.center_y_loc + self.output_container.y_offset)
-
-        # self.youtube_canvas.coords(
-        # self.youtube_bg, self.center_x_loc, self.center_y_loc)
-
-        # self.help_canvas.coords(self.help_frequency_label, self.center_x_loc, (self.center_y_loc/8 - self.center_y_loc)
-
-        # self.youtube_canvas.coords(self.youtube_title_label, self.center_x_loc, self.center_y_loc/4)
-
-        # Update the text on the YT Downloader page:
-        # self.youtube_canvas.coords(self.youtube_title_label,
-        #                            self.center_x_loc, self.center_y_loc - 373)
-        # self.youtube_canvas.coords(
-        #     self.youtube_text, self.center_x_loc, self.center_y_loc - 20)
-        # self.youtube_canvas.itemconfigure(self.youtube_instructions_label, width=1000 if (
-        #     self.window_width - 50) > 1000 else self.window_width - 50)

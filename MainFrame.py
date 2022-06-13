@@ -398,7 +398,9 @@ class MainFrame:
         ----------------------------------------------
         \nSplit: When the stems are finished exporting, the progress bar will disappear. Your tracks should be in the save location you specified.
         ----------------------------------------------
-        Message boxes: The message boxes are scrollable.'''
+        Message boxes: The message boxes are scrollable.
+        ----------------------------------------------
+        Youtube Download URL: Please make sure the video is public and not age-restricted otherwise the download won't work.'''
 
         self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 335,
                                                              anchor=CENTER, text="Help Page", fill="white", font=(self.font_name, 19, self.font_weight))
