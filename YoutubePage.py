@@ -19,6 +19,8 @@ class youtube_page:
     def __init__(self, root, parent, bg_img):
         self.font_name = resources.font_name
         self.font_weight = resources.font_weight
+        
+        self.root = root
 
         # Getting the window width and height.
         self.window_width = root.winfo_width()
@@ -188,11 +190,13 @@ class youtube_page:
 
         self.output_label.see(END)
     # --------------------------------------------------------------------------
-
+    
     # --------------------------------------------------------------------------
-    # Download a Song's audio-only from YouTube
+    # Called upon by clicking the download button.
+    # The function checks for valid inputs to save location and URL.
+    # Then, it calls a thread to download the audio from a video.
     # --------------------------------------------------------------------------
-
+    
     def download_song(self, event):
         self.song_link = self.chosen_file_label.get("1.0", END)
 
@@ -208,43 +212,64 @@ class youtube_page:
             self.output_label.insert(
                 END, "\n\nThere's something wrong with the link you entered. Make sure you entered it correctly and that it's not blank.\n")
             self.output_label.see(END)
-
+            
         else:  # If we reach this line, we have a valid URL and save location
-
-                try:
-                    # Assume that the video is public and not age-restricted. Proceed to download the audio stream only.
-                    self.yt = YouTube(self.song_link)  # make a YouTube object from the video link
-                    self.output_label.insert(END, "\n\nStarting to download your song now.\n")
-                    self.output_label.see(END)
-                    self.audio_stream = self.yt.streams.filter(only_audio=True).first()  # returns an MP4 by default.
-                    self.output_label.insert(
-                        END, "\nRetrieved the audio stream.\n")
-                    self.output_label.see(END)
-                    self.audio_stream.download(output_path=self.save_location)
-                    self.output_label.insert(
-                        END, "\n\nSuccessfully downloaded the song to: " + self.save_location + "\n")
-                    self.output_label.see(END)
-
-
-                except Exception:  # corresponds to a general VideoUnavailable error
-
-                    self.watch_html = request.get(url=self.song_link)
-
-                    # Check if the video is private
-                    if (extract.is_private(self.watch_html)):
-                       self.output_label.insert(END, "\nDownloading the song failed: the video is private. Please use a public video to download from.\n")
-                       self.output_label.see(END)
-
-                    # Check if the video is age-restrcicted
-                    elif (extract.is_age_restricted(self.watch_html)):
-                            self.output_label.insert(
-                                END, "\n\nDownloading the song failed: the video is age-restricted. Use a non-age restricted video and try again.\n")
-                            self.output_label.see(END)
-                    else:
-                        self.output_label.insert(
-                            END, "\n\nDownloading the song failed. The video is unavailable. Make sure the video wasn't removed, is public, is not Members-only (paid content), and is NOT age-restricted. The video cannot be a livestream either. Please find an alernative video to download.\n\n")
-                        self.output_label.see(END)       
+            song_link = self.song_link
+            self.download_thread = threading.Thread(target=lambda: self.downloader_thread(song_link))
+            self.download_thread.daemon = True
+            self.download_thread.start()
+            self.monitor_download_thread(self.download_thread)
     # --------------------------------------------------------------------------------------------
+    
+    # --------------------------------------------------------------------------
+    # The thread that downloads the audio from a video.
+    # --------------------------------------------------------------------------
+    def downloader_thread(self, song_link):
+        try:
+            # Assume that the video is public and not age-restricted. Proceed to download the audio stream only.
+            self.yt = YouTube(song_link)  # make a YouTube object from the video link
+            self.output_label.insert(END, "\n\nStarting to download your song now.\n")
+            self.output_label.see(END)
+            self.audio_stream = self.yt.streams.filter(only_audio=True).first()  # returns an MP4 by default.
+            self.output_label.insert(
+                END, "\nRetrieved the audio stream.\n")
+            self.output_label.see(END)
+            self.audio_stream.download(output_path=self.save_location)
+            self.output_label.insert(
+                END, "\n\nSuccessfully downloaded the song to: " + self.save_location + "\n")
+            self.output_label.see(END)
+
+        except Exception:  # corresponds to a general VideoUnavailable error
+            
+            self.watch_html = request.get(url=song_link)
+
+            # Check if the video is private
+            if (extract.is_private(self.watch_html)):
+                self.output_label.insert(END, "\nDownloading the song failed: the video is private. Please use a public video to download from.\n")
+                self.output_label.see(END)
+            # Check if the video is age-restrcicted
+            elif (extract.is_age_restricted(self.watch_html)):
+                    self.output_label.insert(
+                        END, "\n\nDownloading the song failed: the video is age-restricted. Use a non-age restricted video and try again.\n")
+                    self.output_label.see(END)
+            else:
+                self.output_label.insert(
+                    END, "\n\nDownloading the song failed. The video is unavailable. Make sure the video wasn't removed, is public, is not Members-only (paid content), and is NOT age-restricted. The video cannot be a livestream either. Please find an alernative video to download.\n\n")
+                self.output_label.see(END)
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # Thread to monitor start_download_song's process
+    # --------------------------------------------------------------------------
+    def monitor_download_thread(self, thread):
+        if thread.is_alive():
+            self.output_label.insert(END, "\nStill processing.\n")
+            self.output_label.see(END)
+            self.root.after(100, lambda: self.monitor_download_thread(thread))
+        else:
+            self.output_label.insert(END, "\nEnjoy your music file. You can split the song now.\n")
+            self.output_label.see(END)
+
 
     # --------------------------------------------------------------------------------------------
     def resize_handler(self, event):

@@ -45,9 +45,9 @@ class MainFrame:
         self.center_x_loc = (self.window_width/2)
         self.center_y_loc = (self.window_height/2)
 
-        # -------------------------------------------------------------
+        # ------------------------------------------------------------------------------------
         # Loading Images/Resources (all loading should be done here in the future) and Colors
-        # -------------------------------------------------------------
+        # ------------------------------------------------------------------------------------
         self.bg_image = Image.open(resources.bg_image_path)
         self.browse_button_img = ImageTk.PhotoImage(
             Image.open(resources.browse_button_img_path))
@@ -84,11 +84,11 @@ class MainFrame:
                                     "TNotebook": {"configure": {"background": "#000000", "borderwidth": 0}}})
 
         self.style.theme_use("tabStyle")  # Use the new style we just made.
-        # -------------------------------------------------------------
+        # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------
+        # -------------------------------------------------------------------------
         # Tab Setup--make a Notebook widget first, whose parent is the root window.
-        # ------------------------------------------------------------
+        # -------------------------------------------------------------------------
         self.tab_controller = ttk.Notebook(root)
 
         # Contains the tabs
@@ -131,7 +131,7 @@ class MainFrame:
 
         # -------------------------------------------------------------
         # Background Setup
-        # --------------------------------------------------------------------------
+        # -------------------------------------------------------------
         # Create the backgrounds for each canvas.
         self.spleet_bg = self.spleet_canvas.create_image(
             self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
@@ -143,7 +143,6 @@ class MainFrame:
 
         self.help_bg = self.help_canvas.create_image(
             self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
-
         # --------------------------------------------------------------------------
 
         # --------------------------------------------------------------------------
@@ -410,24 +409,6 @@ class MainFrame:
         # --------------------------------------------------------------------------
 
         # --------------------------------------------------------------------------
-        # Youtube Page Code
-        # --------------------------------------------------------------------------
-
-        # self.youtube_title_label = self.youtube_canvas.create_text(self.center_x_loc, self.center_y_loc/6,
-        #                                 anchor=CENTER, text="\n\nIn Development", fill="white", font=(self.font_name, 19, self.font_weight))
-        # self.youtube_title_label = self.youtube_canvas.create_text(self.center_x_loc, self.center_y_loc,
-        #                                                            anchor=CENTER, text="Youtube Song Downloader", font=(self.font_name, 19, self.font_weight), fill="white")
-        # # TODO write the YT Downloader's Help info on its page directly.
-        # # TODO handle errors too and output the error messages.
-        # yt_help_text_label = '''
-        # Video/Song URL: Paste the entire link to the video containing the song to be downloaded. Only the audio will be downloaded.
-        # '''
-        # self.youtube_instructions_label = self.youtube_canvas.create_text(self.center_x_loc, self.center_y_loc*7,
-        #                                                              anchor=CENTER, text=yt_help_text_label, font=(self.font_name, 13, self.font_weight), fill="white")
-
-        # --------------------------------------------------------------------------
-
-        # --------------------------------------------------------------------------
         # Binding the resizers of each canvas
         # --------------------------------------------------------------------------
         self.spleet_canvas.bind("<Configure>", self.resize_handler)
@@ -457,7 +438,6 @@ class MainFrame:
     # Function for splitting songs
     # Starts a thread to split the song.
     # A thread is necessary so the gui doesn't freeze up while the song is being split
-
     def split_song(self, event):
 
         if self.save_location != "" and self.file_location != "":
@@ -482,7 +462,6 @@ class MainFrame:
             self.output_label.see(END)
 
     # The thread responsible for splitting the song.
-
     def splitter_thread(self, stems, freq, que):
 
         freq_option = ""
@@ -500,7 +479,6 @@ class MainFrame:
         que.put(process.stdout)
 
     # Monitors the splitting thread to see when it finishes.
-
     def monitor_splitting_thread(self, thread):
         if thread.is_alive():
             self.root.after(100, lambda: self.monitor_splitting_thread(thread))
@@ -517,8 +495,7 @@ class MainFrame:
             self.output_label.see(END)
             # self.que.queue.clear()
 
-    # Radio Button Handler
-
+    # Radio Button Handler for Frequency
     def freq_checkbox_handler(self):
         if self.freq_selection.get():
             self.output_label.insert(
@@ -529,8 +506,7 @@ class MainFrame:
 
         self.output_label.see(END)
 
-    # Radio Button Handler
-
+    # Radio Button Handler for Stems
     def set_stem_option(self):
         self.output_label.insert(
             END, "\n\nStem Option set to: " + str(self.stem_option_selection.get()))
@@ -646,14 +622,3 @@ class MainFrame:
                                 self.center_x_loc, self.center_y_loc - 20)
         self.help_canvas.itemconfigure(self.help_text_label, width=1000 if (
             self.window_width - 50) > 1000 else self.window_width - 50)
-        # self.help_canvas.coords(self.help_frequency_label, self.center_x_loc, (self.center_y_loc/8 - self.center_y_loc)
-
-        # self.youtube_canvas.coords(self.youtube_title_label, self.center_x_loc, self.center_y_loc/4)
-
-        # Update the text on the YT Downloader page:
-        # self.youtube_canvas.coords(self.youtube_title_label,
-        #                            self.center_x_loc, self.center_y_loc - 373)
-        # self.youtube_canvas.coords(self.youtube_instructions_label,
-        #                            self.center_x_loc, self.center_y_loc - 20)
-        # self.youtube_canvas.itemconfigure(self.youtube_instructions_label, width=1000 if (
-        #     self.window_width - 50) > 1000 else self.window_width - 50)

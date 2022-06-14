@@ -23,7 +23,7 @@ def main_window(splash_window):
 # Main function.
 def main():
 
-    # -------------- Splash Screen Setup ---------------------
+    # ------------------- Splash Screen Setup ---------------------
     splash_window = Tk()
     splash_window.overrideredirect(True)  # Gets rid of the window border.
     # Forces this window to be on top of everything.
