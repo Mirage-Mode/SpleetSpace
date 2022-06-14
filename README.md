@@ -10,7 +10,7 @@ Music separation (vocals, drums, instruments) desktop application based on the S
 
 Download the latest release by clicking on the link above. Then, extract the zipped files and run "SpleetSpace.exe". 
 
-Optional: Generate a Desktop shortcut to SpleetSpace. Right click SpleetSpace.exe, select "Send to", and then "Desktop (create shortcut)".
+Optional: Create a Desktop shortcut to SpleetSpace. Right click SpleetSpace.exe, select "Send to", and then "Desktop (create shortcut)".
 
 <p float="left">
 <img src="Readme_imgs/spleetspaceimg.jpg" width="420"/>
