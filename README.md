@@ -1,5 +1,5 @@
 # SpleetSpace
-Music separation (vocals, drums, instruments) desktop application based on the Spleeter library.
+Music separation (vocals, drums, instruments) desktop application based on the Spleeter and Pytube libraries.
 * Separate a song into 5 stems, 4 stems, 2 stems
 * Supported file types for audio files: .mp3, .mp4, .m4a, .wav, .wma, .flac, .aiff, .webm, .ogg. 
 * Built-in Youtube Song Downloader
