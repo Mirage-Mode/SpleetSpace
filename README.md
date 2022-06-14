@@ -2,13 +2,15 @@
 Music separation (vocals, drums, instruments) desktop application based on the Spleeter and Pytube libraries.
 * Separate a song into 5 stems, 4 stems, 2 stems
 * Supported file types for audio files: .mp3, .mp4, .m4a, .wav, .wma, .flac, .aiff, .webm, .ogg. 
-* Built-in Youtube Song Downloader
-* In-depth help documentation inside app: never be lost.
+* Built-in Youtube Song Downloader (outputs .mp4)
 
-
-## Download
+## Download and Installation
 
 [Download Latest Release - v0.1](https://github.com/Mirage-Mode/SpleetSpace/releases/download/v0.1/SpleetSpace.zip) (not working on some devices - fix in progress)
+
+Download the latest program files by clicking on the link above. Then, extract the zipped files and run "SpleetSpace.exe". 
+
+Generate a Desktop shortcut to SpleetSpace: Right click SpleetSpace.exe, select "Send to", and then "Desktop (create shortcut)".
 
 <p float="left">
 <img src="Readme_imgs/spleetspaceimg.jpg" width="420"/>
