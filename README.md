@@ -8,9 +8,9 @@ Music separation (vocals, drums, instruments) desktop application based on the S
 
 [Download Latest Release - v0.1](https://github.com/Mirage-Mode/SpleetSpace/releases/download/v0.1/SpleetSpace.zip) (not working on some devices - fix in progress)
 
-Download the latest program files by clicking on the link above. Then, extract the zipped files and run "SpleetSpace.exe". 
+Download the latest release by clicking on the link above. Then, extract the zipped files and run "SpleetSpace.exe". 
 
-Generate a Desktop shortcut to SpleetSpace: Right click SpleetSpace.exe, select "Send to", and then "Desktop (create shortcut)".
+Optional: Generate a Desktop shortcut to SpleetSpace. Right click SpleetSpace.exe, select "Send to", and then "Desktop (create shortcut)".
 
 <p float="left">
 <img src="Readme_imgs/spleetspaceimg.jpg" width="420"/>
@@ -20,7 +20,7 @@ Generate a Desktop shortcut to SpleetSpace: Right click SpleetSpace.exe, select 
 * Eventual support for MacOS
 
 ## Notes on Platform 
-SpleetSpace has not been tested on MacOS although the code is technically cross-platform.
+SpleetSpace has not been tested on MacOS although the program is technically cross-platform.
 
 ## Dependencies
 

@@ -35,6 +35,7 @@ mid_block_color = "#AAFF65"  # radio button fill-in color: bright green
 button_color = "#7D50FF"  # purple box color
 prog_bar_color = "#EABEFF"  # orchid purple progress bar
 
+yt_prog_bar_color = "#FEAA80"
 download_pg_frame_color = "#DA5578"  # light pink frames.
 
 # -------------------------------------------------------------

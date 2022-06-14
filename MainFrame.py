@@ -458,7 +458,7 @@ class MainFrame:
 
         else:
             self.output_label.insert(
-                END, "\n\nERROR!: You must pick a song and save location.")
+                END, "\n\nERROR: You must pick a song and save location.")
             self.output_label.see(END)
 
     # The thread responsible for splitting the song.

@@ -69,7 +69,7 @@ class youtube_page:
                                       font=(self.font_name, 13, self.font_weight), bd=0, highlightthickness=0, wrap=NONE)
 
         # Placeholder text for the URL box:
-        self.chosen_file_label.insert(END, "https://youtu.be/zliasEkWx0M")  # Skrillex, Starrah & Four Tet - Butterflies (Official Music Video)
+        self.chosen_file_label.insert(END, "https://youtu.be/exampleurl")
 
         self.chosen_file_label.grid(row=0, column=0, padx=5)
         self.file_label_border.grid(row=0, column=0)
@@ -144,6 +144,37 @@ class youtube_page:
             "downloadButton", "<Leave>", lambda event: on_cursor_endoverlap(self.youtube_canvas))
         # --------------------------------------------------------------------------
 
+
+        
+        # --------------------------------------------------------------------------
+        # Progress Bar
+        # --------------------------------------------------------------------------
+        self.prog_bar_running = False  # Is the prog bar running or not.
+        prog_glob_off = 6
+        self.style = ttk.Style()
+        self.style.configure("red.Horizontal.TProgressbar",
+                             troughcolor='black', background=resources.yt_prog_bar_color, border=0,  borderwidth=0, highlightthickness=0, relief="flat")
+
+        prog_bar_frame = Frame(
+            self.youtube_canvas, background="#000000", borderwidth=0)
+        self.prog_bar = ttk.Progressbar(prog_bar_frame, orient="horizontal",
+                                        length=400, mode="indeterminate", style="red.Horizontal.TProgressbar")
+
+        prog_bar_frame.pack()
+
+        # To test the prog bar, set the prog_bar_running to true and uncomment these lines ->
+        # self.prog_bar.grid(row=0, column=0) #For testing
+        # self.run_progbar_anim() #for testing
+
+        self.prog_bar_container = canvas_element()
+        self.prog_bar_container.y_offset = 0 + prog_glob_off
+        self.prog_bar_container.element = self.youtube_canvas.create_window(self.center_x_loc, self.center_y_loc + self.prog_bar_container.y_offset,
+                                                                           anchor=CENTER, window=prog_bar_frame)
+        # --------------------------------------------------------------------------
+
+
+
+
         # --------------------------------------------------------------------------
         # Output Box
         # --------------------------------------------------------------------------
@@ -156,7 +187,7 @@ class youtube_page:
         self.output_label = Text(self.output_border, bg="black", fg="white", width=49, height=15, font=(
             self.font_name, 10, self.font_weight), bd=0)
         self.output_label.insert(
-            END, "Welcome to the Youtube MP3 Downloader!\nType into the URL box, set a location to save the file into, and then click 'Download'. You will recieve a .MP4 file upon success.")
+            END, "Welcome to the Youtube MP4 Downloader!\n\nEnter a Youtube URL in the URL box, set a location to save the file, and then click 'Download' to receive an MP4 audio file.\n")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
         self.output_border.grid(row=0, column=0, padx=5)
 
@@ -170,6 +201,12 @@ class youtube_page:
 
         self.youtube_canvas.bind("<Configure>", self.resize_handler)
 
+
+
+
+
+
+
     # --------------------------------------------------------------------------
     # Function for opening the file Browser to save the video to.
     # --------------------------------------------------------------------------
@@ -180,13 +217,13 @@ class youtube_page:
             self.save_file_label.configure(text="Save Location")
             self.save_file_label.configure(anchor="w")
             self.output_label.insert(
-                END, "\n\nDid not pick a save location. Please pick a save location!")
+                END, "\nDid not pick a save location. Please pick a save location!\n")
 
         else:
             self.save_file_label.configure(text="" + self.save_location)
             self.save_file_label.configure(anchor="e")
             self.output_label.insert(
-                END, "\n\nSave location set to: " + self.save_location + "\n")
+                END, "\nSave location set to: " + self.save_location + "\n")
 
         self.output_label.see(END)
     # --------------------------------------------------------------------------
@@ -203,23 +240,29 @@ class youtube_page:
         # Checking for empty save location
         if (self.save_location == ""):
             self.output_label.insert(
-            END, "\n\nPlease pick a location to save the downloaded song to before clicking 'Download'.\n")
+            END, "\nERROR: You must pick a save location before downloading.\n")
             self.output_label.see(END)
 
         # Checking for empty song link here.
         elif (self.song_link == ""):
             # corresponds to blank input for URL.
             self.output_label.insert(
-                END, "\n\nThere's something wrong with the link you entered. Make sure you entered it correctly and that it's not blank.\n")
+                END, "\nERROR: There's something wrong with the link you entered. Make sure you entered it correctly and that it's not blank.\n")
             self.output_label.see(END)
             
         else:  # If we reach this line, we have a valid URL and save location
+            self.prog_bar.grid(row=0, column=0)
+            self.prog_bar_running = True
+            self.run_progbar_anim()
             song_link = self.song_link
             self.download_thread = threading.Thread(target=lambda: self.downloader_thread(song_link))
             self.download_thread.daemon = True
             self.download_thread.start()
             self.monitor_download_thread(self.download_thread)
     # --------------------------------------------------------------------------------------------
+    
+
+
     
     # --------------------------------------------------------------------------
     # The thread that downloads the audio from a video.
@@ -228,15 +271,12 @@ class youtube_page:
         try:
             # Assume that the video is public and not age-restricted. Proceed to download the audio stream only.
             self.yt = YouTube(song_link)  # make a YouTube object from the video link
-            self.output_label.insert(END, "\n\nStarting to download your song now.\n")
+            self.output_label.insert(END, "\nDownloading the song...\n")
             self.output_label.see(END)
             self.audio_stream = self.yt.streams.filter(only_audio=True).first()  # returns an MP4 by default.
-            self.output_label.insert(
-                END, "\nRetrieved the audio stream.\n")
-            self.output_label.see(END)
             self.audio_stream.download(output_path=self.save_location)
             self.output_label.insert(
-                END, "\n\nSuccessfully downloaded the song to: " + self.save_location + "\n")
+                END, "\nSuccessfully downloaded the song to: " + self.save_location + "\n")
             self.output_label.see(END)
 
         except Exception:  # corresponds to a general VideoUnavailable error
@@ -250,25 +290,34 @@ class youtube_page:
             # Check if the video is age-restrcicted
             elif (extract.is_age_restricted(self.watch_html)):
                     self.output_label.insert(
-                        END, "\n\nDownloading the song failed: the video is age-restricted. Use a non-age restricted video and try again.\n")
+                        END, "\nDownloading the song failed: the video is age-restricted. Use a non-age restricted video and try again.\n")
                     self.output_label.see(END)
             else:
                 self.output_label.insert(
-                    END, "\n\nDownloading the song failed. The video is unavailable. Make sure the video wasn't removed, is public, is not Members-only (paid content), and is NOT age-restricted. The video cannot be a livestream either. Please find an alernative video to download.\n\n")
+                    END, "\nDownloading the song failed: Incorrect URL or the video is unavailable. Make sure the video wasn't removed, is public, is not Members-only (paid content), and is NOT age-restricted. Livestream videos are also not supported.\n\n")
                 self.output_label.see(END)
     # --------------------------------------------------------------------------
+
+
 
     # --------------------------------------------------------------------------
     # Thread to monitor start_download_song's process
     # --------------------------------------------------------------------------
     def monitor_download_thread(self, thread):
         if thread.is_alive():
-            self.output_label.insert(END, "\nStill processing.\n")
-            self.output_label.see(END)
             self.root.after(100, lambda: self.monitor_download_thread(thread))
         else:
-            self.output_label.insert(END, "\nEnjoy your music file. You can split the song now.\n")
-            self.output_label.see(END)
+            self.prog_bar_running = False
+            self.prog_bar.grid_remove()
+
+
+
+    # Starts the prog bar animation
+    def run_progbar_anim(self):
+        if self.prog_bar_running:
+            self.prog_bar.step(2)
+            self.root.after(10, self.run_progbar_anim)
+
 
 
     # --------------------------------------------------------------------------------------------
@@ -309,3 +358,6 @@ class youtube_page:
         # Output box
         self.youtube_canvas.coords(self.output_container.element, self.center_x_loc -
                                    self.output_container.x_offset, self.center_y_loc + self.output_container.y_offset)
+
+        self.youtube_canvas.coords(self.prog_bar_container.element, self.center_x_loc -
+                                  self.prog_bar_container.x_offset, self.center_y_loc + self.prog_bar_container.y_offset)
