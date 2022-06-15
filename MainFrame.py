@@ -401,7 +401,9 @@ class MainFrame:
 
 _____________________________________________________________________________________________________________________________________________
 
+
         Youtube Download URL: Please make sure the video is public, not paid content (Members-Only), not age-restricted, not a livestream, and not removed, otherwise the download won't work.
+
 
         Download: Youtube videos are saved to the specified location as audio-only .mp4 files.'''
 
