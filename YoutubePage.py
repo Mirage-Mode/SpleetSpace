@@ -17,11 +17,11 @@ from pytube import YouTube, extract, request
 class youtube_page:
 
     def __init__(self, root, parent, bg_img):
+        self.root = root
+
         self.font_name = resources.font_name
         self.font_weight = resources.font_weight
         
-        self.root = root
-
         # Getting the window width and height.
         self.window_width = root.winfo_width()
         self.window_height = root.winfo_height()
@@ -144,8 +144,6 @@ class youtube_page:
             "downloadButton", "<Leave>", lambda event: on_cursor_endoverlap(self.youtube_canvas))
         # --------------------------------------------------------------------------
 
-
-        
         # --------------------------------------------------------------------------
         # Progress Bar
         # --------------------------------------------------------------------------
@@ -172,9 +170,6 @@ class youtube_page:
                                                                            anchor=CENTER, window=prog_bar_frame)
         # --------------------------------------------------------------------------
 
-
-
-
         # --------------------------------------------------------------------------
         # Output Box
         # --------------------------------------------------------------------------
@@ -187,7 +182,7 @@ class youtube_page:
         self.output_label = Text(self.output_border, bg="black", fg="white", width=49, height=15, font=(
             self.font_name, 10, self.font_weight), bd=0)
         self.output_label.insert(
-            END, "Welcome to the Youtube MP4 Downloader!\n\nEnter a Youtube URL in the URL box, set a location to save the file, and then click 'Download' to receive an MP4 audio file.\n")
+            END, "Welcome to the Youtube MP4 Downloader.\n\nEnter a Youtube URL in the URL box, set the location to save the file to, then click the button for your .mp4.\n")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
         self.output_border.grid(row=0, column=0, padx=5)
 
@@ -202,11 +197,6 @@ class youtube_page:
         self.youtube_canvas.bind("<Configure>", self.resize_handler)
 
 
-
-
-
-
-
     # --------------------------------------------------------------------------
     # Function for opening the file Browser to save the video to.
     # --------------------------------------------------------------------------
@@ -217,7 +207,7 @@ class youtube_page:
             self.save_file_label.configure(text="Save Location")
             self.save_file_label.configure(anchor="w")
             self.output_label.insert(
-                END, "\nDid not pick a save location. Please pick a save location!\n")
+                END, "\nNo save location specified. Please pick a save location!\n")
 
         else:
             self.save_file_label.configure(text="" + self.save_location)
@@ -260,10 +250,7 @@ class youtube_page:
             self.download_thread.start()
             self.monitor_download_thread(self.download_thread)
     # --------------------------------------------------------------------------------------------
-    
 
-
-    
     # --------------------------------------------------------------------------
     # The thread that downloads the audio from a video.
     # --------------------------------------------------------------------------
@@ -271,7 +258,7 @@ class youtube_page:
         try:
             # Assume that the video is public and not age-restricted. Proceed to download the audio stream only.
             self.yt = YouTube(song_link)  # make a YouTube object from the video link
-            self.output_label.insert(END, "\nDownloading the song...\n")
+            self.output_label.insert(END, "\nWorking...\n")
             self.output_label.see(END)
             self.audio_stream = self.yt.streams.filter(only_audio=True).first()  # returns an MP4 by default.
             self.audio_stream.download(output_path=self.save_location)
@@ -294,11 +281,9 @@ class youtube_page:
                     self.output_label.see(END)
             else:
                 self.output_label.insert(
-                    END, "\nDownloading the song failed: Incorrect URL or the video is unavailable. Make sure the video wasn't removed, is public, is not Members-only (paid content), and is NOT age-restricted. Livestream videos are also not supported.\n\n")
+                    END, "\nDownloading the song failed: incorrect URL or the video is unavailable. Make sure the video wasn't removed, is public, is not Members-only (paid content), and is NOT age-restricted. Livestream videos are also not supported.\n\n")
                 self.output_label.see(END)
     # --------------------------------------------------------------------------
-
-
 
     # --------------------------------------------------------------------------
     # Thread to monitor start_download_song's process
@@ -311,13 +296,11 @@ class youtube_page:
             self.prog_bar.grid_remove()
 
 
-
     # Starts the prog bar animation
     def run_progbar_anim(self):
         if self.prog_bar_running:
             self.prog_bar.step(2)
             self.root.after(10, self.run_progbar_anim)
-
 
 
     # --------------------------------------------------------------------------------------------

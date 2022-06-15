@@ -259,7 +259,7 @@ class MainFrame:
         self.freq_label.x_offset = 21
         self.freq_label.y_offset = self.freq_container.y_offset
         self.freq_label.element = self.spleet_canvas.create_text(self.center_x_loc - self.freq_label.x_offset, self.center_y_loc + self.freq_label.y_offset, anchor=CENTER,
-                                                                 text="Include High Frequencies (16kHz) ", fill="white", font=(self.font_name, 14, self.font_weight))
+                                                                 text="Include High Frequencies (16 kHz) ", fill="white", font=(self.font_name, 14, self.font_weight))
 
         self.black_pixel_label = Label(
             self.spleet_canvas, image=self.black_pixel, bd=0)
@@ -365,7 +365,7 @@ class MainFrame:
         self.output_label = Text(self.output_border, bg="black", fg="white", width=49, height=5, font=(
             self.font_name, 10, self.font_weight), bd=0)
         self.output_label.insert(
-            END, "Welcome to Spleet Space!\nWaiting for input...")
+            END, "Welcome to Spleet Space.\nWaiting for input...")
         self.output_label.grid(row=0, column=0, padx=10, pady=10)
         self.output_border.grid(row=0, column=0, padx=5)
 
@@ -382,24 +382,29 @@ class MainFrame:
         # --------------------------------------------------------------------------
         # help section's body of text:
         help_text_label = '''
-        Stems: Choose the number of stems to separate song into.
-        2 stems: Vocals and Accompaniment (the music)
+
+        Stems:  The song can be split into the following sets of tracks:
+        2 stems: Vocals and Accompaniment (all the music)
         4 stems: Vocals, drums, bass, and all other sounds
         5 stems: Vocals, drums, bass, piano, and all other sounds
-        \nNote: Occasionally, sounds might bleed into the wrong track(s), so you might want to try additional separation options or edit the exported audio files with other software.
-        ----------------------------------------------
-        \nInclude Up to 16kHz Frequency: By default, the separation process discards frequencies above 11kHz. If the 16 kHz option is checked, the exported tracks will include frequencies up to 16kHz found in the song.
-        \nNote: Using the 16kHz option might result in unexpected artifacting in the exported tracks.
-        ----------------------------------------------
-        \nSong: Pick an audio track to separate into stems. The supported file types are .mp3, .mp4, .m4a, .wav, .wma, .flac, .aiff, .webm, .ogg.
-        ----------------------------------------------
-        \nSave Location: Your outputted tracks will be saved to the location you choose. The exported stems will be in .wav format.
-        ----------------------------------------------
-        \nSplit: When the stems are finished exporting, the progress bar will disappear. Your tracks should be in the save location you specified.
-        ----------------------------------------------
-        Message boxes: The message boxes are scrollable.
-        ----------------------------------------------
-        Youtube Download URL: Please make sure the video is public, not paid content (Members-Only), not age-restricted, not a livestream, and not removed, otherwise the download won't work.'''
+
+            Note:   If sounds bleed into the wrong tracks, separating the song into a different number of stems might work better; The previous output will be overwritten. You can also edit the stems' audio in other software.
+            
+
+        Include Up to 16 kHz Frequency: By default, the audio separation process discards frequencies above 11kHz. If the 16 kHz option is checked, the exported tracks will include frequencies up to 16kHz. Using the 16kHz option might result in unexpected artifacting in the exported tracks.
+        
+
+        Song to Separate: Pick an audio track to separate into stems. The supported file types are .mp3, .mp4, .m4a, .wav, .wma, .flac, .aiff, .webm, .ogg.
+
+
+        Split: The stems from a song separation will be outputted as .wav tracks and saved in a folder to the location you chose.
+
+  _____________________________________________________________________________________________________________________________________________
+
+        Youtube Download URL: Please make sure the video is public, not paid content (Members-Only), not age-restricted, not a livestream, and not removed, otherwise the download won't work.
+
+        Download: Youtube videos are saved to the specified location as audio-only .mp4 files.'''
+
 
         self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 335,
                                                              anchor=CENTER, text="Help Page", fill="white", font=(self.font_name, 19, self.font_weight))
@@ -617,7 +622,7 @@ class MainFrame:
 
         # Updating the location of the Help Canvas's texts
         self.help_canvas.coords(self.help_title_label,
-                                self.center_x_loc, self.center_y_loc - 335)
+                                self.center_x_loc, self.center_y_loc - 345)
         self.help_canvas.coords(self.help_text_label,
                                 self.center_x_loc, self.center_y_loc - 20)
         self.help_canvas.itemconfigure(self.help_text_label, width=1000 if (
