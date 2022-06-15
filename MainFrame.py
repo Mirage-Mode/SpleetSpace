@@ -71,6 +71,7 @@ class MainFrame:
         self.rend_image = ImageTk.PhotoImage(self.resized_background_image)
         # -------------------------------------------------------------
 
+
         # -------------------------------------------------------------
         # STYLES
         # -------------------------------------------------------------
@@ -85,6 +86,7 @@ class MainFrame:
 
         self.style.theme_use("tabStyle")  # Use the new style we just made.
         # -------------------------------------------------------------------------
+
 
         # -------------------------------------------------------------------------
         # Tab Setup--make a Notebook widget first, whose parent is the root window.
@@ -109,6 +111,7 @@ class MainFrame:
         self.tab_controller.pack(fill=BOTH, expand=1)
         # -------------------------------------------------------------
 
+
         # -------------------------------------------------------------
         # Canvas Setup for the 3 tabs
         # -------------------------------------------------------------
@@ -129,6 +132,8 @@ class MainFrame:
         self.help_canvas.pack(expand=1, fill=BOTH)
         # -------------------------------------------------------------
 
+
+
         # -------------------------------------------------------------
         # Background Setup
         # -------------------------------------------------------------
@@ -144,6 +149,8 @@ class MainFrame:
         self.help_bg = self.help_canvas.create_image(
             self.center_x_loc, self.center_y_loc, anchor=CENTER, image=self.rend_image)
         # --------------------------------------------------------------------------
+
+
 
         # --------------------------------------------------------------------------
         # File Load Browser
@@ -184,6 +191,8 @@ class MainFrame:
         self.spleet_canvas.tag_bind(
             "browseButton", "<Leave>", lambda event: on_cursor_endoverlap(self.spleet_canvas))
         # --------------------------------------------------------------------------
+
+
 
         # ----------------------------------------------------------------------------------
         # Stems Code
@@ -229,6 +238,8 @@ class MainFrame:
                                                               self.center_y_loc + self.stems_label.y_offset, image=self.stems_bg, anchor="center")
         # --------------------------------------------------------------------------
 
+
+
         # --------------------------------------------------------------------------
         # CheckBox Code
         # --------------------------------------------------------------------------
@@ -273,6 +284,8 @@ class MainFrame:
 
         # --------------------------------------------------------------------------
 
+
+
         # --------------------------------------------------------------------------
         # File Save Browser
         # --------------------------------------------------------------------------
@@ -311,6 +324,8 @@ class MainFrame:
             "saveButton", "<Leave>", lambda event: on_cursor_endoverlap(self.spleet_canvas))
         # --------------------------------------------------------------------------
 
+
+
         # --------------------------------------------------------------------------
         # Split Button
         # --------------------------------------------------------------------------
@@ -328,6 +343,8 @@ class MainFrame:
         self.spleet_canvas.tag_bind(
             "splitButton", "<Leave>", lambda event: on_cursor_endoverlap(self.spleet_canvas))
         # --------------------------------------------------------------------------
+
+
 
         # --------------------------------------------------------------------------
         # Progress Bar
@@ -377,6 +394,8 @@ class MainFrame:
                                                                          anchor=CENTER, window=self.output_border)
         # --------------------------------------------------------------------------
 
+
+
         # --------------------------------------------------------------------------
         # Help Page Code
         # --------------------------------------------------------------------------
@@ -412,6 +431,8 @@ ________________________________________________________________________________
                                                             anchor=CENTER, text=help_text_label, fill="white", font=(self.font_name, 10, self.font_weight), justify="center")
         # --------------------------------------------------------------------------
 
+
+
         # --------------------------------------------------------------------------
         # Binding the resizers of each canvas
         # --------------------------------------------------------------------------
@@ -427,17 +448,26 @@ ________________________________________________________________________________
         root.geometry('%dx%d+%d+%d' % (resources.minsizew,
                       resources.minsizeh, window_x_location, window_y_location))
 
+
+
+
     # Gets called on exit. Removes the font resource from windows.
     def on_exit(self):
         self.root.destroy()
         gdi32 = ctypes.WinDLL('gdi32')
         gdi32.RemoveFontResourceW(resources.font_path)
 
+
+
+
     # Starts the prog bar animation
     def run_progbar_anim(self):
         if self.prog_bar_running:
             self.prog_bar.step(2)
             self.root.after(10, self.run_progbar_anim)
+
+
+
 
     # Function for splitting songs
     # Starts a thread to split the song.
@@ -465,6 +495,9 @@ ________________________________________________________________________________
                 END, "\n\nERROR: You must pick a song and save location.")
             self.output_label.see(END)
 
+
+
+
     # The thread responsible for splitting the song.
     def splitter_thread(self, stems, freq, que):
 
@@ -481,6 +514,9 @@ ________________________________________________________________________________
         process = subprocess.run(
             command, creationflags=CREATE_NO_WINDOW, capture_output=True, text=True)
         que.put(process.stdout)
+
+
+
 
     # Monitors the splitting thread to see when it finishes.
     def monitor_splitting_thread(self, thread):
@@ -499,6 +535,9 @@ ________________________________________________________________________________
             self.output_label.see(END)
             # self.que.queue.clear()
 
+
+
+
     # Radio Button Handler for Frequency
     def freq_checkbox_handler(self):
         if self.freq_selection.get():
@@ -510,11 +549,17 @@ ________________________________________________________________________________
 
         self.output_label.see(END)
 
+
+
+
     # Radio Button Handler for Stems
     def set_stem_option(self):
         self.output_label.insert(
             END, "\n\nStem Option set to: " + str(self.stem_option_selection.get()))
         self.output_label.see(END)
+
+
+
 
     # Function for opening the file Browser
     def browse_files(self, event):
@@ -537,6 +582,9 @@ ________________________________________________________________________________
 
         self.output_label.see(END)
 
+
+
+
     # Function for opening the file Browser
     def browse_save_location(self, event):
 
@@ -554,6 +602,9 @@ ________________________________________________________________________________
                 END, "\n\nSave location set to: " + self.save_location)
 
         self.output_label.see(END)
+
+
+
 
 
     # This function gets fired every time the windows is resized or moved. Updates the position of each UI element.

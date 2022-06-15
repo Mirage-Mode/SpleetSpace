@@ -36,6 +36,8 @@ class youtube_page:
         self.youtube_bg = self.youtube_canvas.create_image(
             self.center_x_loc, self.center_y_loc, anchor=CENTER, image=bg_img)
 
+            
+
         # -------------------------------------------------------------
         # Loading Images/Resources (all loading should be done here in the future) and Colors
         # -------------------------------------------------------------
@@ -52,6 +54,8 @@ class youtube_page:
         self.download_button_img = ImageTk.PhotoImage(
             Image.open(resources.download_button_img_path))
         # -------------------------------------------------------------
+
+
 
         # --------------------------------------------------------------------------
         # URL/Text input box
@@ -86,6 +90,8 @@ class youtube_page:
         self.file_title.element = self.youtube_canvas.create_text(self.center_x_loc - self.file_title.x_offset, self.center_y_loc - self.file_title.y_offset, anchor=W,
                                                                   text="Youtube URL", fill="white", font=(self.font_name, 14, self.font_weight))
         # --------------------------------------------------------------------------
+
+
 
         # --------------------------------------------------------------------------
         # Save Location's File Browser
@@ -127,6 +133,8 @@ class youtube_page:
 
         # --------------------------------------------------------------------------
 
+
+
         # --------------------------------------------------------------------------
         # YT Download Button
         # --------------------------------------------------------------------------
@@ -143,6 +151,8 @@ class youtube_page:
         self.youtube_canvas.tag_bind(
             "downloadButton", "<Leave>", lambda event: on_cursor_endoverlap(self.youtube_canvas))
         # --------------------------------------------------------------------------
+
+
 
         # --------------------------------------------------------------------------
         # Progress Bar
@@ -169,6 +179,8 @@ class youtube_page:
         self.prog_bar_container.element = self.youtube_canvas.create_window(self.center_x_loc, self.center_y_loc + self.prog_bar_container.y_offset,
                                                                            anchor=CENTER, window=prog_bar_frame)
         # --------------------------------------------------------------------------
+
+
 
         # --------------------------------------------------------------------------
         # Output Box
@@ -197,6 +209,8 @@ class youtube_page:
         self.youtube_canvas.bind("<Configure>", self.resize_handler)
 
 
+
+
     # --------------------------------------------------------------------------
     # Function for opening the file Browser to save the video to.
     # --------------------------------------------------------------------------
@@ -218,6 +232,9 @@ class youtube_page:
         self.output_label.see(END)
     # --------------------------------------------------------------------------
     
+
+
+
     # --------------------------------------------------------------------------
     # Called upon by clicking the download button.
     # The function checks for valid inputs to save location and URL.
@@ -250,6 +267,8 @@ class youtube_page:
             self.download_thread.start()
             self.monitor_download_thread(self.download_thread)
     # --------------------------------------------------------------------------------------------
+
+
 
     # --------------------------------------------------------------------------
     # The thread that downloads the audio from a video.
@@ -285,6 +304,7 @@ class youtube_page:
                 self.output_label.see(END)
     # --------------------------------------------------------------------------
 
+
     # --------------------------------------------------------------------------
     # Thread to monitor start_download_song's process
     # --------------------------------------------------------------------------
@@ -296,11 +316,15 @@ class youtube_page:
             self.prog_bar.grid_remove()
 
 
+
+
     # Starts the prog bar animation
     def run_progbar_anim(self):
         if self.prog_bar_running:
             self.prog_bar.step(2)
             self.root.after(10, self.run_progbar_anim)
+
+
 
 
     # --------------------------------------------------------------------------------------------
