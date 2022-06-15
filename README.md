@@ -12,7 +12,7 @@ Download the latest release by clicking on the link above. Then, extract the zip
 
 Optional: Create a Desktop shortcut to SpleetSpace. Right click SpleetSpace.exe, select "Send to", and then "Desktop (create shortcut)". <br/><br/>
 <p float="left">
-<img src="Readme_imgs/spleetspaceimg.png" width="650"/>
+<img src="Readme_imgs/SpleetSpaceReadMeSS.png" width="650"/>
 </p>
 
 ## Planned Features
