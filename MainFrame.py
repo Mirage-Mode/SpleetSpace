@@ -621,6 +621,6 @@ ________________________________________________________________________________
 
         # Updating the location of the Help Canvas's texts
         self.help_canvas.coords(self.help_text_label,
-                                self.center_x_loc, self.center_y_loc - 60)
+                                self.center_x_loc, self.center_y_loc - 50)
         self.help_canvas.itemconfigure(self.help_text_label, width=1000 if (
             self.window_width - 50) > 1000 else self.window_width - 50)
