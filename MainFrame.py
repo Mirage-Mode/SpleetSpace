@@ -399,15 +399,12 @@ class MainFrame:
 
         Split: The stems from a song separation will be outputted as .wav tracks and saved in a folder to the location you chose.
 
-  _____________________________________________________________________________________________________________________________________________
-
+___________________________________________________________________________________________________________________________________________     
+ 
         Youtube Download URL: Please make sure the video is public, not paid content (Members-Only), not age-restricted, not a livestream, and not removed, otherwise the download won't work.
 
         Download: Youtube videos are saved to the specified location as audio-only .mp4 files.'''
 
-
-        self.help_title_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 335,
-                                                             anchor=CENTER, text="Help Page", fill="white", font=(self.font_name, 19, self.font_weight))
 
         self.help_text_label = self.help_canvas.create_text(self.center_x_loc, self.center_y_loc - 20, width=1000 if (self.window_width - 50) > 1000 else self.window_width - 50,
                                                             anchor=CENTER, text=help_text_label, fill="white", font=(self.font_name, 10, self.font_weight), justify="center")
@@ -621,9 +618,7 @@ class MainFrame:
                                   self.output_container.x_offset, self.center_y_loc + self.output_container.y_offset)
 
         # Updating the location of the Help Canvas's texts
-        self.help_canvas.coords(self.help_title_label,
-                                self.center_x_loc, self.center_y_loc - 345)
         self.help_canvas.coords(self.help_text_label,
-                                self.center_x_loc, self.center_y_loc - 20)
+                                self.center_x_loc, self.center_y_loc - 60)
         self.help_canvas.itemconfigure(self.help_text_label, width=1000 if (
             self.window_width - 50) > 1000 else self.window_width - 50)
