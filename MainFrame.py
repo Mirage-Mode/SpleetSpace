@@ -32,6 +32,7 @@ class MainFrame:
 
         gdi32 = ctypes.WinDLL('gdi32')
         gdi32.AddFontResourceW(resources.font_path)
+        gdi32.AddFontResourceW(resources.label_font_path)
 
         root.minsize(resources.minsizew, resources.minsizeh)
         window_x_location = (root.winfo_screenwidth()/2) - \
@@ -459,6 +460,7 @@ ________________________________________________________________________________
         self.root.destroy()
         gdi32 = ctypes.WinDLL('gdi32')
         gdi32.RemoveFontResourceW(resources.font_path)
+        gdi32.RemoveFontResourceW(resources.label_font_path)
 
 
 
