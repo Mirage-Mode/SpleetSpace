@@ -350,7 +350,7 @@ class MainFrame:
         # Progress Bar
         # --------------------------------------------------------------------------
         self.prog_bar_running = False  # Is the prog bar running or not.
-        prog_glob_off = 218
+        prog_glob_off = 193
 
         self.style.configure("green.Horizontal.TProgressbar",
                              troughcolor='black', background=resources.prog_bar_color, border=0,  borderwidth=0, highlightthickness=0, relief="flat")
