@@ -532,10 +532,10 @@ ________________________________________________________________________________
             self.prog_bar_running = False
             self.prog_bar.grid_remove()
             output = self.que.get()
-            if output[0] == 'E':
-                self.output_label.insert(END, "\n\n" + output)
-            else:
-                self.output_label.insert(
+            # if output[0] == 'E':
+            #     self.output_label.insert(END, "\n\n" + output)
+            # else:
+            self.output_label.insert(
                     END, "\n\nSplitting Complete! " + song_name + " has been split and saved at " + self.save_location)
             self.output_label.see(END)
             # self.que.queue.clear()
