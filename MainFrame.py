@@ -27,6 +27,9 @@ class MainFrame:
         self.font_name = resources.font_name
         self.font_weight = resources.font_weight
 
+        self.label_font_name = resources.label_font_name
+        self.label_font_weight = resources.label_font_weight
+
         gdi32 = ctypes.WinDLL('gdi32')
         gdi32.AddFontResourceW(resources.font_path)
 
@@ -177,7 +180,7 @@ class MainFrame:
         self.file_title.x_offset = 203
         self.file_title.y_offset = 198 + load_glob_off
         self.file_title.element = self.spleet_canvas.create_text(self.center_x_loc - self.file_title.x_offset, self.center_y_loc - self.file_title.y_offset, anchor=W,
-                                                                 text="Song", fill="white", font=(self.font_name, 14, self.font_weight))
+                                                                 text="Song", fill="white", font=(self.label_font_name, 14, self.label_font_weight))
 
         self.file_browser_button = canvas_element()
         self.file_browser_button.x_offset = 154
@@ -214,7 +217,7 @@ class MainFrame:
         self.stems_label.x_offset = 177
         self.stems_label.y_offset = 80 + stems_glob_off
         self.stems_label.element = self.spleet_canvas.create_text(self.center_x_loc - self.stems_label.x_offset, self.center_y_loc - self.stems_label.y_offset, anchor=W,
-                                                                  text="Number of Stems", fill="white", font=(self.font_name, 14, self.font_weight))
+                                                                  text="Number of Stems", fill="white", font=(self.label_font_name, 14, self.label_font_weight))
 
         self.two_stem = Radiobutton(stems_radio_frame, text="Two", variable=self.stem_option_selection, value=2, command=self.set_stem_option,
                                     activebackground="black", activeforeground=resources.mid_block_color, selectcolor="black", bg="black", fg=resources.mid_block_color, font=(self.font_name, 13, self.font_weight))
@@ -295,7 +298,7 @@ class MainFrame:
         self.file_save_title.x_offset = 203
         self.file_save_title.y_offset = -225 + save_glob_off
         self.file_save_title.element = self.spleet_canvas.create_text(self.center_x_loc - self.file_save_title.x_offset, self.center_y_loc - self.file_save_title.y_offset, anchor=W,
-                                                                      text="Save Location", fill="white", font=(self.font_name, 14, self.font_weight))
+                                                                      text="Save Location", fill="white", font=(self.label_font_name, 14, self.label_font_weight))
 
         file_save_frame = Frame(self.spleet_canvas, background="#000000", bd=0)
         self.file_save_border = Frame(
@@ -542,10 +545,10 @@ ________________________________________________________________________________
     def freq_checkbox_handler(self):
         if self.freq_selection.get():
             self.output_label.insert(
-                END, "\n\nFrequency Range set to: 0-16kHz (not always recommended)")
+                END, "\n\nFrequency Range set to: 0-16 kHz (not always recommended)")
         else:
             self.output_label.insert(
-                END, "\n\nFrequency Range set to: 0-11kHz")
+                END, "\n\nFrequency Range set to: 0-11 kHz")
 
         self.output_label.see(END)
 
