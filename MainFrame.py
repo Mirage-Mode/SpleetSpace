@@ -383,7 +383,7 @@ class MainFrame:
 
         self.output_border = Frame(self.spleet_canvas, highlightbackground="#b096ff",
                                    highlightcolor="#b096ff", highlightthickness=2, bd=0, background="black")
-        self.output_label = Text(self.output_border, bg="black", fg="white", width=49, height=5, font=(
+        self.output_label = Text(self.output_border, bg="black", fg="white", width=50, height=5, font=(
             self.font_name, 10, self.font_weight), bd=0)
         self.output_label.insert(
             END, "Welcome to Spleet Space.\nWaiting for input...")
