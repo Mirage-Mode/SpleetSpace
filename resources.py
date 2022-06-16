@@ -14,6 +14,11 @@ font_name = "Work Sans Regular"
 font_weight = "normal"
 font_path = resources_path + "WorkSans-Regular.ttf"
 
+label_font_name = "Work Sans Medium"
+label_font_weight = "normal"
+label_font_path = resources_path + "WorkSans-Medium.ttf"
+
+
 # -------------------------------------------------------------
 # Loading Images/Resources (all loading should be done here in the future) and Colors
 # -------------------------------------------------------------

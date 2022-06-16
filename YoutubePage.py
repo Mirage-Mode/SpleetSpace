@@ -22,6 +22,9 @@ class youtube_page:
         self.font_name = resources.font_name
         self.font_weight = resources.font_weight
         
+        self.label_font_name = resources.label_font_name
+        self.label_font_weight = resources.label_font_weight
+
         # Getting the window width and height.
         self.window_width = root.winfo_width()
         self.window_height = root.winfo_height()
@@ -88,7 +91,7 @@ class youtube_page:
         self.file_title.x_offset = 203
         self.file_title.y_offset = 198 + load_glob_off
         self.file_title.element = self.youtube_canvas.create_text(self.center_x_loc - self.file_title.x_offset, self.center_y_loc - self.file_title.y_offset, anchor=W,
-                                                                  text="Youtube URL", fill="white", font=(self.font_name, 14, self.font_weight))
+                                                                  text="Youtube URL", fill="white", font=(self.label_font_name, 14, self.label_font_weight))
         # --------------------------------------------------------------------------
 
 
@@ -102,7 +105,7 @@ class youtube_page:
         self.file_save_title.x_offset = 203
         self.file_save_title.y_offset = -225 + save_glob_off
         self.file_save_title.element = self.youtube_canvas.create_text(self.center_x_loc - self.file_save_title.x_offset, self.center_y_loc - self.file_save_title.y_offset, anchor=W,
-                                                                       text="Save Location", fill="white", font=(self.font_name, 14, self.font_weight))
+                                                                       text="Save Location", fill="white", font=(self.label_font_name, 14, self.label_font_weight))
 
         file_save_frame = Frame(self.youtube_canvas,
                                 background="#000000", bd=0)
