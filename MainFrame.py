@@ -22,7 +22,7 @@ class MainFrame:
     def __init__(self, root):
 
         # Make the window respond to windows scaling
-        windll.shcore.SetProcessDpiAwareness(0)
+        windll.shcore.SetProcessDpiAwareness(1)
         self.que = queue.Queue()  # global thread status queue
         self.font_name = resources.font_name
         self.font_weight = resources.font_weight
