@@ -6,7 +6,9 @@ Music separation (vocals, drums, instruments) desktop application based on the S
 
 ## Download and Installation
 
-[Download Latest Release - v0.1](https://github.com/Mirage-Mode/SpleetSpace/releases/download/v0.1/SpleetSpace.zip) (not working on some devices - fix in progress)
+[Download Latest Release - v0.1](https://drive.google.com/file/d/1vmetiEpjmrETMxav65TTn8yx4MzHcp5P/view?usp=sharing)
+
+[Download Large Screen Compatible Version (for high scale screens)](https://drive.google.com/file/d/1vanhgpGqvnBbkr_ewrXjfXA89FM6k7r7/view?usp=sharing)
 
 Download the latest release by clicking on the link above. Then, extract the zipped files and run "SpleetSpace.exe". 
 
