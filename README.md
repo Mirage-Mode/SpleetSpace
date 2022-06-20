@@ -6,12 +6,13 @@ Music separation (vocals, drums, instruments) desktop application based on the S
 
 
 ## Download and Installation
+**You do NOT need to have python or spleeter installed, everything is included in the package.**
 
 [Download Latest Release - v0.1](https://drive.google.com/file/d/1vmetiEpjmrETMxav65TTn8yx4MzHcp5P/view?usp=sharing)
 
 [Download Large Screen Compatible Version (for high scale screens)](https://drive.google.com/file/d/1vanhgpGqvnBbkr_ewrXjfXA89FM6k7r7/view?usp=sharing)
 
-Download the latest release by clicking on the preferred version above. Then, extract the zipped files and run "SpleetSpace.exe". 
+Download the latest release by clicking on the preferred version above. Then, extract the zipped files and run "SpleetSpace.exe".
 
 Optional: Create a Desktop shortcut to SpleetSpace. Right click SpleetSpace.exe, select "Send to", and then "Desktop (create shortcut)". <br/><br/>
 <p float="left">
